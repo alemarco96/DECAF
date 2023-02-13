@@ -40,11 +40,11 @@ public class MSMARCOv1CorpusParser implements CorpusParser
      * Create the {@link CorpusParser}, reading data from the specified files.
      *
      * @param corpusFilename The filename of the MS-MARCOv1 documents corpus.
-     * @param duplicatesFilename The filename of the MS-MARCOv1 documents ID to discard.
+     * @param duplicateFilename The filename of the MS-MARCOv1 documents ID to discard.
      * @throws NullPointerException If the provided corpus filename is null.
      * @throws RuntimeException If an exception has occurred while creating the corpus parser.
      */
-    public MSMARCOv1CorpusParser(String corpusFilename, String duplicatesFilename)
+    public MSMARCOv1CorpusParser(String corpusFilename, String duplicateFilename)
     {
         if (corpusFilename == null)
             throw new NullPointerException("The provided corpus filename is null.");
@@ -64,13 +64,13 @@ public class MSMARCOv1CorpusParser implements CorpusParser
             }
 
 
-            if (duplicatesFilename != null)
+            if (duplicateFilename != null)
             {
-                final Path duplicatesPath = Paths.get(duplicatesFilename);
+                final Path duplicatesPath = Paths.get(duplicateFilename);
 
                 try
                 {
-                    duplicateIDs = MSMARCOv1Utils.findDuplicateIDs(duplicatesFilename);
+                    duplicateIDs = MSMARCOv1Utils.findDuplicateIDs(duplicateFilename);
                 }
                 catch (Throwable th)
                 {

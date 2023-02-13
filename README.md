@@ -1,9 +1,11 @@
 # DECAF
 
-DECAF is a framework for performing conversational search. Its modular architecture enables to easily
-extend and adapt it to suit most applications' needs, while reusing most of the pre-defined components. The core of
-DECAF is written in Java, while some components are implemented in Python. All machine-learning code
-supports acceleration through CUDA-enabled GPU. It is developed at [University of Padua](https://www.unipd.it/).
+![Logo of DECAF](decaf-logo.png "Logo of DECAF")
+
+DECAF is a framework for performing conversational search. Its modular architecture enables it to easily extend and
+adapt to suit most applications' needs while reusing most of the pre-defined components. The core of DECAF is written
+in Java, while some components are implemented in Python. All machine-learning code supports acceleration through
+CUDA-enabled GPU. It is developed at the [University of Padua](https://www.unipd.it/).
 
 ## How to setup the Framework
 
@@ -30,15 +32,15 @@ Pipeline is composed of two main components:
 
 - `Indexer`
 
-  It processes each document provided by the CorpusParser and stores relevant information of a data structure called
-  index, which is stored on disk for later performing documents retrieval through the Searcher component.
+  It processes each document provided by the CorpusParser and stores relevant information in a data structure called
+  index, which is stored on disk for later performing document retrieval through the Searcher component.
 
 
 Instead, the Search Pipeline is composed of five main components:
 
 - `TopicsParser`
 
-  It provides new conversations and utterances to be processed by the remaining of the framework.
+  It provides new conversations and utterances to be processed by the remainder of the framework.
 
 - `Rewriter`
 
@@ -47,8 +49,8 @@ Instead, the Search Pipeline is composed of five main components:
 
 - `Searcher`
 
-  It takes the rewritten text, generate a query and retrieves a small set of candidate documents to answer the
-  provided question. The ranked list of documents generated as output is then consumed by the Reranker.
+  It generates the query from the rewritten text of the utterance(s), then retrieves a small set of candidate documents
+  to answer the provided question. The ranked list of documents generated as output is then consumed by the Reranker.
 
 - `Reranker`
 
@@ -61,13 +63,13 @@ Instead, the Search Pipeline is composed of five main components:
 
 ## Components Implemented
 
-DECAF comes with several components already available out-of-the-box.
+DECAF comes with several components already available out of the box.
 
 ### CorpusParser
 
 - `MSMARCOv1`
 
-  It allows for parsing passages contained within MS-MARCO version 1. There is also support for duplicates removal, by
+  It allows for parsing passages contained within MS-MARCO version 1. There is also support for duplicate removal, by
   providing an additional textual file. Each line must use the `<KEEP ID>:<DUPLICATE 1 ID>,<DUPLICATE 2 ID>,...\n`
   format, so all documents whose ID appears as a duplicate are discarded.
 
@@ -81,8 +83,8 @@ DECAF comes with several components already available out-of-the-box.
 
 - `Multi`
 
-  It fuses together the stream of documents extracted by some other CorpusParsers. It is well suited for indexing
-  data coming from multiple corpora, where each of them is parsed using one of the other implemented CorpusParser.
+  It fuses the stream of documents extracted by some other CorpusParsers. It is well suited for indexing data coming
+  from multiple corpora, where each of them is parsed using one of the other implemented CorpusParser.
 
 ### Indexer
 
@@ -104,8 +106,8 @@ DECAF comes with several components already available out-of-the-box.
 
 ### TopicsParser
 
-All available components are designed to parse [TREC CAsT](https://www.treccast.ai/) evaluation topics for Year 1 and 2,
-held respectively in 2019 and 2020. The prefix in their names represent the different kind of utterances returned.
+All available components are designed to parse [TREC CAsT](https://www.treccast.ai/) evaluation topics for Years 1 and
+2, held respectively in 2019 and 2020. The prefix in their names represents the different kinds of utterances returned.
 
 - `AutCAsT19`
 
@@ -157,7 +159,7 @@ All the components require that the documents must have already been indexed to 
 - `BoW`
 
   It performs first stage retrieval using [Lucene](https://lucene.apache.org/) text search engine library. It is well
-  suited for implementing bag-of-words retrieval models. It provides good results when using BM25 scoring function,
+  suited for implementing bag-of-words retrieval models. It provides good results when using the BM25 scoring function,
   which is often used as an evaluation baseline. It should be paired with a reranker to improve performance measures.
 
 - `Splade`
@@ -165,7 +167,7 @@ All the components require that the documents must have already been indexed to 
   It performs first stage retrieval using [SPLADE](https://github.com/naver/splade), a neural retrieval model which
   learns sparse representation for both queries and documents via the BERT MLM head and sparse regularization. It
   produces a list of term-weight pairs, that is indexed using [Lucene](https://lucene.apache.org/). Please note that,
-  during indexing phase, each weight given by SPLADE is multiplied by a constant factor (such as 100 or 1000) and then
+  during index phase, each weight given by SPLADE is multiplied by a constant factor (such as 100 or 1000) and then
   rounded to the nearest integer, therefore the results may slightly differ from the one reported in the literature.
   This component does not require any additional reranking for optimal performance.
 
@@ -208,7 +210,7 @@ evaluate the query similarity with the documents. The available options are:
 
   * Query Generator
 
-    It produces the query embedding, that will be compared against each document to produce their new score. The
+    It produces the query embedding, which will be compared against each document to produce their new score. The
     available options are the same as above.
 
   * Similarity Function
@@ -223,10 +225,10 @@ evaluate the query similarity with the documents. The available options are:
 
   * Run Fusion
 
-    The ranked list produced by the Transformers model can be fused together with the original one given by the Searcher
-    using a run fusion technique. The available options are:
+    The ranked list produced by the Transformers model can be fused with the original one given by the Searcher using a
+    run fusion technique. The available options are:
   
-    + `Null`
+    + `No`
     
       No fusion is applied.
 
@@ -238,8 +240,8 @@ evaluate the query similarity with the documents. The available options are:
     
     + `ReciprocalRank`
     
-      For each document, the formula `1.0 / (k + rank[doc])` is used to obtain a score from both ranked list, that are
-      then combined using a linear combination of parameter `alpha`. To obtain the same results as the standard
+      For each document, the formula `1.0 / (k + rank[doc])` is used to obtain a score from both ranked lists, which
+      are then combined using a linear combination of parameter `alpha`. To obtain the same results as the standard
       reciprocal rank run fusion technique, use `k = 60` and `alpha = 0.5`.
 
 ### Run Writer
@@ -255,6 +257,6 @@ evaluate the query similarity with the documents. The available options are:
 
   * Full run generated from the rankings given by the Searcher and Reranker.
   * One run for each conversation processed.
-  * One run for all utterances with the same turn in their conversation.
+  * One run for all utterance with the same turn in their conversation.
 
-  as well as the list of top 10 responses produced by the system for each utterance.
+  as well as the list of the top 10 responses produced by the system for each utterance.

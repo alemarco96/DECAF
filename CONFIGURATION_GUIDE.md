@@ -2,11 +2,11 @@
 
 ## Structure of the Configuration Files
 
-Both the index and search phase behavior can be customised by doing small edits to the properties configuration files
+Both the index and search phase behavior can be customized by doing small edits to the properties configuration files
 provided with the framework. The general structure is:
 
 ```
-Configuration lines, that should be edited by DECAF users to customize its behavior.
+Configuration lines: should be edited by DECAF users to customize its behavior.
 
 #****************************************************************************************************
 #****************************************************************************************************
@@ -14,12 +14,12 @@ Configuration lines, that should be edited by DECAF users to customize its behav
 #****************************************************************************************************
 #****************************************************************************************************
 
-Reflection lines, needed to correctly instantiate the selected components at runtime.
+Reflection lines: needed to correctly instantiate the selected components at runtime.
 ```
 
-Each line represent a `key = value` pair. Differently from standard
-[properties file](https://en.wikipedia.org/wiki/.properties), with `$(referenced_key)` in the value it is possible to
-replace it with the value stored for that referenced key. For example, this snippet
+Each line represents a `key = value` pair. Differently from the standard
+[properties file](https://en.wikipedia.org/wiki/.properties) syntax, with `$(referenced_key)` in the value it is
+possible to replace it with the value stored for that referenced key. For example, this snippet
 
 ```
 first = foo
@@ -29,8 +29,8 @@ second = $(first)_bar
 is evaluated as `first = foo` and `second = foo_bar`.
 
 A common technique used in the provided properties files is to have multiple lines with the same key but different
-values. Their purpose is to provide for the same key multiple options to choose from. All lines must be commented by
-adding a `#` character at the start of the line, except the one containing the desired value. As an example, with this
+values. Their purpose is to provide multiple options to choose from for the same key. All lines must be commented by
+adding a `#` character at the start of the line, except the one containing the desired value. As an example, in this
 snippet
 
 ```
@@ -48,13 +48,13 @@ the selected color is green.
 The index phase is configured using the provided `index.properties` file. In the top part of the file, the user of
 DECAF must set:
 
-- `[int] launch.num_threads` The number of CPU threads to use to speed-up code execution.
+- `[int] launch.num_threads` The number of CPU threads to use to speed up code execution.
 - `launch.corpus` Which [CorpusParser](README.md#corpusparser) to instantiate.
 - `launch.indexer` Which [Indexer](README.md#indexer) to instantiate.
 
 ### Detailed Components Configuration
 
-Most components also requires to set some additional parameters.
+Most components also require setting some additional parameters.
 
 #### CorpusParser
 
@@ -67,9 +67,9 @@ Most components also requires to set some additional parameters.
 
       The path to the corpus file of MS-MARCO passage dataset v1.
 
-    * `[string] launch.corpus.CAsT1920.msmarco_duplicates_filename`
+    * `[string] launch.corpus.CAsT1920.msmarco_duplicate_filename`
 
-      The path to the duplicates file for MS-MARCO passage dataset v1, provided by the organizers of TREC CAsT.
+      The path to the duplicate file for MS-MARCO passage dataset v1, provided by the organizers of TREC CAsT.
 
     * `[string] launch.corpus.CAsT1920.treccar_corpus_filename`
 
@@ -90,7 +90,7 @@ Most components also requires to set some additional parameters.
 
     * `[string] launch.indexer.BoW.analyzer`
 
-      Which Lucene analyzer is applied to the documents' text. The only pre-defined option available is `English`.
+      Which Lucene analyzer is applied to each document's text. The only pre-defined option available is `English`.
 
     * `[string] launch.indexer.BoW.similarity`
 
@@ -136,7 +136,7 @@ Most components also requires to set some additional parameters.
     * `[int] launch.indexer.Splade.batch_size`
 
       The number of documents processed in parallel by the SPLADE model. It is suggested to set this parameter to 1,
-      otherwise it is possible to experience a slowdown in terms of execution time (as we found during our testings).
+      otherwise it is possible to experience a slowdown in terms of execution time (as we found during our tests).
 
     * `[int] launch.indexer.Splade.chunks_size`
   
@@ -193,7 +193,7 @@ The search phase is configured using the provided `search.properties` file. In t
 DECAF must set:
 
 - `[int] launch.num_documents` The (maximum) number of documents to retrieve for each utterance.
-- `[int] launch.num_threads` The number of CPU threads to use to speed-up code execution.
+- `[int] launch.num_threads` The number of CPU threads to use to speed up code execution.
 - `launch.topics` Which [TopicsParser](README.md#topicsparser) to instantiate.
 - `launch.rewriter` Which [Rewriter](README.md#rewriter) to instantiate.
 - `launch.searcher` Which [Searcher](README.md#searcher) to instantiate.
@@ -202,7 +202,7 @@ DECAF must set:
 
 ### Detailed Components Configuration
 
-Most components also requires to set some additional parameters.
+Most components also require setting some additional parameters.
 
 #### TopicsParser
 

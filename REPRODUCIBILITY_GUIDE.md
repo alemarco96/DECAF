@@ -1,10 +1,10 @@
 # How to reproduce our work
 
-In this page we detailed the step-by-step procedure on how to replicate the experiments conducted for the <br>
+In this page, we detailed the step-by-step procedure on how to replicate the experiments conducted for the <br>
 **DECAF: a Modular and Extensible Conversational Search Framework** <br>
 paper. For the remainder of this guide, we assume that the OS used is Linux.
 
-## Prerequisite: Inital setup of the framework
+## Prerequisite: Initial setup of the framework
 
 It is required to perform the initial setup of the framework. Please follow the instructions detailed on the
 [Installation](INSTALLATION_GUIDE.md) guide.
@@ -88,14 +88,14 @@ The first step is to download all data necessary to conduct our experiments, fol
   cd ..
   ```
 
-## Step 2: Index the collections
+## Step 2: Index the corpora
 
-The next step is to index the collections, using all three different approaches detailed in the paper (`BM25` and
+The next step is to index the corpora, using all three different approaches detailed in the paper (`BM25` and
 `SPLADE` bag-of-words and `BERT` dense retrieval models). In practice, you need to execute this phase once for every
 approach, following this two-steps procedure:
 
 - Adjust the index parameters by editing the `index.properties` configuration file inside the `config` sub-folder. More
-  details are provided below in the remaining of this chapter.
+  details are provided below in the remainder of this chapter.
 
 
 - Execute the index phase, using the provided script:
@@ -107,7 +107,7 @@ approach, following this two-steps procedure:
 
 The index configuration file must be adjusted according to this procedure:
 
-- Set the `launch.corpus` corpus to `CAsT1920`, and comment out with `#` all other options for the same component:
+- Set the `launch.corpus` to `CAsT1920`, and comment out with `#` all other options for the same component:
 
   ```
   launch.corpus = CAsT1920
@@ -117,8 +117,7 @@ The index configuration file must be adjusted according to this procedure:
 
     * `BM25` approach:
 
-        + Select the `launch.indexer` indexer to `BoW`, and comment out with `#` all other options for the same
-          component:
+        + Select the `launch.indexer` to `BoW`, and comment out with `#` all other options for the same component:
 
           ```
           launch.indexer = BoW
@@ -140,8 +139,8 @@ The index configuration file must be adjusted according to this procedure:
 
     * `BERT` approach:
 
-        + Note that this approach occupies a lot of disk space: it takes approximately `3 KB` for every document,
-          therefore the index for TREC CAsT 2019 and 2020 requires near `120 GB` of space.
+        + Note that this approach occupies a lot of disk space: it takes more than `2 KB` for every document,
+          therefore the index for TREC CAsT 2019 and 2020 requires approximately `100 GB` of free disk space.
 
         + Select the `launch.indexer` indexer to `Dense`, and comment out with `#` all other options for the same
           component:
@@ -192,20 +191,20 @@ The index configuration file must be adjusted according to this procedure:
 
 ## Step 3: Perform the experiments
 
-After the index phase has been successfully completed, it is possible to replicate the experiments we conducted.
-Similarly to the previous phase, it is required to adjust the `search.properties` configuration file, then execute the
-desired operation using the `./scripts/search.sh` command.
+After the index phase has been completed, it is possible to replicate the experiments we conducted. Similarly to the
+previous phase, it is required to adjust the `search.properties` configuration file, then execute the desired operation
+using the `./scripts/search.sh` command.
 
 We tested different configurations for each of the four main components of the framework (Topics Parser, Rewriter,
-Searcher and Reranker), which are referred by unique IDs in the remainder of this chapter. The configuration parameters
-that must be set inside the `search.properties` file are given below. The list of experiments that we carried out is
-detailed in the following tables: the first one refers to TREC CAsT 2019, while the second one is for the 2020 edition.
-We also reported the four evaluation metrics used in the paper (Recall with cutoff 100, Mean Reciprocal Rank and
-Normalized Discounted Cumulative Gain with cutoffs 3 and 10).
+Searcher and Reranker), which are referred to by unique IDs in the remainder of this chapter. The configuration
+parameters that must be set inside the `search.properties` file are given below. The list of experiments that we carried
+out is detailed in the following tables: the first one refers to TREC CAsT 2019, while the second one is for the 2020
+edition. We also reported the four evaluation metrics used in the paper (Recall with cutoff 100, Mean Reciprocal Rank
+and Normalized Discounted Cumulative Gain with cutoffs 3 and 10).
 
-Please note that, for being able to replicate our experiments using the dense retrieval Searcher based on the `BERT`
-model, it is required to load the whole index to RAM. This means that at least 120 GB of RAM are required for
-TREC CAsT 2019 and 2020 datasets.
+Note that, for being able to replicate our experiments using the dense retrieval Searcher based on the `BERT`model,
+it is required to load the whole index to RAM. This means that at least 100 GB of RAM is required for TREC CAsT 2019
+and 2020 datasets.
 
 - Table of experiments on TREC CAsT 2019:
 
@@ -299,7 +298,7 @@ TREC CAsT 2019 and 2020 datasets.
 
     * `Rewriter`:
 
-        + `None`:
+        + `--`:
 
           ```
           launch.rewriter = No
@@ -450,7 +449,7 @@ TREC CAsT 2019 and 2020 datasets.
 
     * `Reranker`:
 
-        + `No`:
+        + `--`:
 
           ```
           launch.reranker = No
@@ -492,17 +491,17 @@ TREC CAsT 2019 and 2020 datasets.
 
   * `Debug`:
 
-    Generate a directory containing multiple output files. Please refer to the documentation for further details. Note
-    that the run in TREC-eval format can be found in the `full.txt` file inside the `reranked` sub-folder.
+    Generate a directory containing multiple output files. Refer to the documentation for further details. Note that
+    the run in TREC-eval format can be found in the `full.txt` file inside the `reranked` sub-folder.
 
     ```
     #launch.run_writer = TrecEval
     launch.run_writer = Debug
     ```
 
-## Step 4: Perform evaluation on the generated runs
+## Step 4: Perform evaluation of the generated runs
 
-After step 3, it is possible to perform evaluation on the run generated for each experiment. To perform this phase, we
+After step 3, it is possible to perform evaluation of the run generated for each experiment. To perform this phase, we
 use the `trec-eval` tool from command-line, according to this procedure:
 
 - Open the terminal from the main folder of the framework.

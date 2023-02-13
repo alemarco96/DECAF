@@ -54,7 +54,7 @@ according to the following procedure:
   pip install pip --upgrade pip
   ```
 
-- Choose a folder where all Python virtual environments will be stored. For the remaining of this guide, the `venv`
+- Choose a folder where all Python virtual environments will be stored. For the remainder of this guide, the `venv`
   subdirectory inside the root folder will be used. In case you choose differently, just change it with the appropriate
   value. Make sure to not put a forward slash (`/`) at the end of the command.
 
@@ -93,7 +93,7 @@ according to the following procedure:
   conda deactivate
   ```
   
-  This virtual environment is required by the `AllenNLP` rewriter only. If you don't plan to using this component,
+  This virtual environment is required by the `AllenNLP` rewriter only. If you don't plan of using this component,
   this step can be safely skipped. Note that the `FastCoref` rewriter performs the same job using a different library,
   the results are (mostly) identical, and it is faster.
 
@@ -102,7 +102,7 @@ according to the following procedure:
 This framework relies on some machine-learning models to perform its job. Before being able to use the framework,
 users are required to download them and save them on disk. Please follow this procedure:
 
-- Choose a folder where all machine-learning models will be stored. For the remaining of this guide, the `models`
+- Choose a folder where all machine-learning models will be stored. For the remainder of this guide, the `models`
   subdirectory inside the root folder will be used. In case you choose differently, just change it with the appropriate
   value. Make sure to not put a forward slash (`/`) at the end of the command.
   ```
@@ -128,10 +128,10 @@ For each model, repeat these steps:
   * From the [HuggingFace](https://huggingface.co/) website main page, search for the desired model's page using the
     text box placed in the top-left corner.
 
-  * Create a new folder inside the `models/transformers` subdirectory with the same name of the desired one.
+  * Create a new folder inside the `models/transformers` subdirectory with the same name as the desired one.
   
   * Download all files from the `Files and versions` tab of the model card page on HuggingFace and place them inside
-    the folder created at the previous step. Please note that, in case there are multiple files with the `LFS` symbol
+    the folder created in the previous step. Note that, in case there are multiple files with the `LFS` symbol
     and the same size, it is generally possible to only pick `pytorch_model.bin` and skip all the other(s).
 
   * In case these steps are required to be performed in a command line-only environment, please use the following
@@ -169,7 +169,7 @@ cases, make sure to create the `allennlp_spacy_transformers` virtual environment
   * Read the model card's JSON file, looking for the `model_usage/archive_file` property. It gives the filename of the
     archive that must be downloaded to use the model.
 
-  * Create a new folder inside the `models/allennlp` subdirectory with the same name of the desired model.
+  * Create a new folder inside the `models/allennlp` subdirectory with the same name as the desired model.
 
   * Download the model archive and decompress it:
 
@@ -191,9 +191,9 @@ cases, make sure to create the `allennlp_spacy_transformers` virtual environment
 
 The provided launch scripts must be edited to point to the correct locations on disk. Please follow this procedure:
 
-- Edit both `index.sh` and `search.sh` launch scripts, located inside the `scripts/` subfolder. At line 4, change the
+- Edit both `index.sh` and `search.sh` launch scripts, located inside the `scripts/` subfolder. In line 4, change the
   value of the environmental variable `DECAF_ROOT_FOLDER` with the location of the root folder of the framework. The
-  value required is the same as the homonym environmental variable created before at step 1.
+  value required is the same as the homonym environmental variable created before in step 1.
 
 # Uninstall
 
