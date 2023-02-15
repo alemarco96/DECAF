@@ -15,16 +15,16 @@ import java.util.Map;
 
 
 /**
- * The {@code AllQueryGenerator} class is a {@link QueryGenerator} that generate a query considering the rewritten
+ * The {@code SequenceQueryGenerator} class is a {@link QueryGenerator} that generate a query considering the rewritten
  * text of all {@link Utterance}s belonging to the current {@link Conversation}, giving equal weight to each of them.
  *
  * @author Marco Alessio
  */
 @SuppressWarnings("unused")
-public final class AllQueryGenerator
+public final class SequenceQueryGenerator
 {
     /**
-     * The BoW-based implementation of the {@link AllQueryGenerator}.
+     * The BoW-based implementation of the {@link SequenceQueryGenerator}.
      */
     public static final class BoW extends AbstractBoWQueryGenerator
     {
@@ -65,7 +65,7 @@ public final class AllQueryGenerator
 
 
     /**
-     * The dense representation-based implementation of the {@link AllQueryGenerator}.
+     * The dense representation-based implementation of the {@link SequenceQueryGenerator}.
      */
     public static final class Dense extends AbstractDenseQueryGenerator
     {
@@ -102,7 +102,7 @@ public final class AllQueryGenerator
 
 
     /**
-     * The SPLADE-based implementation of the {@link AllQueryGenerator}.
+     * The SPLADE-based implementation of the {@link SequenceQueryGenerator}.
      */
     public static final class Splade extends AbstractSpladeQueryGenerator
     {
@@ -143,7 +143,7 @@ public final class AllQueryGenerator
 
 
     // Disable the default constructor.
-    private AllQueryGenerator()
+    private SequenceQueryGenerator()
     {
         throw new RuntimeException("This class can not be instantiated.");
     }

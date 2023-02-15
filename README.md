@@ -186,7 +186,7 @@ evaluate the query similarity with the documents. The available options are:
 
   It considers only the rewritten text of the current utterance.
 
-- `All`
+- `Sequence`
 
   It considers the concatenation of the rewritten text for each utterance of the current conversation.
 

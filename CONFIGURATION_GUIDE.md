@@ -260,7 +260,7 @@ Most components also require setting some additional parameters.
 
 - [`Current`](#query-generator)
 
-- [`All`](#query-generator)
+- [`Sequence`](#query-generator)
 
 - [`FLC`](#query-generator)
 
@@ -432,4 +432,19 @@ Most components also require setting some additional parameters.
 #### Run Writer
 
 - [`TrecEval`](#run-writer)
+
+    <details>
+    <summary>Additional Parameters</summary>
+
+    * `[string] launch.run_writer.TrecEval.run_id` The identifier of the produced run.
+
+    </details>
+
 - [`Debug`](#run-writer)
+
+    <details>
+    <summary>Additional Parameters</summary>
+
+    * `[string] launch.run_writer.Debug.run_id` The identifier of the produced run.
+
+    </details>
