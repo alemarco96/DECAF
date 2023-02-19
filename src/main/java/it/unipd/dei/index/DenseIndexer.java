@@ -3,7 +3,6 @@ package it.unipd.dei.index;
 import it.unipd.dei.corpus.CorpusParser;
 import it.unipd.dei.exception.PythonRuntimeException;
 import it.unipd.dei.external.ExternalScriptDriver;
-import it.unipd.dei.pipeline.IndexTimingInfo;
 import it.unipd.dei.search.DenseSearcher;
 import org.jetbrains.annotations.NotNull;
 
@@ -172,14 +171,14 @@ public class DenseIndexer implements Indexer
 
 
     /**
-     * Return an {@link Iterator} of {@link Map.Entry}&lt;{@link Integer},{@link IndexTimingInfo}&gt;,
-     * each one representing the number of documents indexed and the timing information for a specific chunk.
+     * Return an {@link Iterator} of {@link Integer}, each one representing the number of documents
+     * indexed for a specific chunk.
      *
-     * @return An {@link Iterator} of {@link Map.Entry}&lt;{@link Integer},{@link IndexTimingInfo}&gt;.
+     * @return An {@link Iterator} of {@link Integer}.
      */
     @NotNull
     @Override
-    public Iterator<Map.Entry<Integer, IndexTimingInfo>> iterator()
+    public Iterator<Integer> iterator()
     {
         return this;
     }
@@ -217,21 +216,17 @@ public class DenseIndexer implements Indexer
     /**
      * Process the next chunk of documents.
      *
-     * @return A pair with the number of documents indexed in this chunk and with timing information.
+     * @return The number of documents indexed in this chunk.
      * @throws RuntimeException If an exception has occurred while performing indexing.
      */
     @Override
-    public Map.Entry<Integer, IndexTimingInfo> next()
+    public Integer next()
     {
         if (parser == null)
             throw new RuntimeException("This object has not been initialized, using the init() method.");
 
         try
         {
-            final IndexTimingInfo timingInfo = new IndexTimingInfo(1000L);
-
-            timingInfo.subTotal(System.currentTimeMillis());
-
             // Return null if there are no more chunks to index.
             if (!hasNext())
                 return null;
@@ -243,7 +238,6 @@ public class DenseIndexer implements Indexer
             int counter = 0;
             int batchCounter = 0;
 
-            timingInfo.subParse(System.currentTimeMillis());
             while ((parser.hasNext()) && (counter < chunksSize))
             {
                 // Read the next document from the collection parser.
@@ -251,9 +245,6 @@ public class DenseIndexer implements Indexer
                 if ((parDoc == null) || (parDoc.id == null) || (parDoc.text == null) || (parDoc.content == null) ||
                         (parDoc.id.isBlank()) || (parDoc.text.isBlank()) || (parDoc.content.isBlank()))
                     continue;
-
-                timingInfo.addParse(System.currentTimeMillis());
-                timingInfo.subIndex(System.currentTimeMillis());
 
                 // Write a "<id>\t<text>\n" line to the "docs" writer, and the index of the first byte
                 // of such string, encoded in UTF-8 charset, in the "refs" writer.
@@ -270,15 +261,10 @@ public class DenseIndexer implements Indexer
                 // Write the content to Faiss (Python code).
                 toIn.println(parDoc.content);
 
-                timingInfo.addIndex(System.currentTimeMillis());
-                timingInfo.subParse(System.currentTimeMillis());
-
                 counter++;
                 batchCounter++;
                 if (batchCounter < batchSize)
                     continue;
-
-                timingInfo.addParse(System.currentTimeMillis());
 
                 toIn.flush();
 
@@ -293,19 +279,9 @@ public class DenseIndexer implements Indexer
                 if (!errRun.isBlank())
                     throw new PythonRuntimeException(errRun);
 
-                // Read the timing information from Python code.
-                final long externalTime = Math.round(Double.parseDouble(sd.waitNextOutputLine()) * 1000.0);
-                final long indexTime = Math.round(Double.parseDouble(sd.waitNextOutputLine()) * 1000.0);
-                timingInfo.addExternal(externalTime);
-                timingInfo.addIndex(indexTime);
-
-                timingInfo.subParse(System.currentTimeMillis());
-
                 // Reset the batch status to empty.
                 batchCounter = 0;
             }
-
-            timingInfo.addParse(System.currentTimeMillis());
 
             if (batchCounter > 0)
             {
@@ -322,20 +298,11 @@ public class DenseIndexer implements Indexer
                 final String errRun = sd.waitNextErrorText();
                 if (!errRun.isBlank())
                     throw new PythonRuntimeException(errRun);
-
-                // Read the timing information from Python code.
-                final long externalTime = Math.round(Double.parseDouble(sd.waitNextOutputLine()) * 1000.0);
-                final long indexTime = Math.round(Double.parseDouble(sd.waitNextOutputLine()) * 1000.0);
-                timingInfo.addExternal(externalTime);
-                timingInfo.addIndex(indexTime);
             }
 
             // Flush the "docs" and "refs" writers.
-            timingInfo.subIndex(System.currentTimeMillis());
             docsWriter.flush();
             refsWriter.flush();
-            timingInfo.addIndex(System.currentTimeMillis());
-            timingInfo.addTotal(System.currentTimeMillis());
 
             if (!hasNext())
             {
@@ -352,16 +319,10 @@ public class DenseIndexer implements Indexer
                 final String errRun = sd.waitNextErrorText();
                 if (!errRun.isBlank())
                     throw new PythonRuntimeException(errRun);
-
-                // Read the timing information from Python code.
-                final long externalTime = Math.round(Double.parseDouble(sd.waitNextOutputLine()) * 1000.0);
-                final long indexTime = Math.round(Double.parseDouble(sd.waitNextOutputLine()) * 1000.0);
-                timingInfo.addExternal(externalTime);
-                timingInfo.addIndex(indexTime);
             }
 
             // Return progress information about the indexing of this chunk.
-            return new AbstractMap.SimpleImmutableEntry<>(counter, timingInfo);
+            return counter;
         }
         catch (Throwable th)
         {

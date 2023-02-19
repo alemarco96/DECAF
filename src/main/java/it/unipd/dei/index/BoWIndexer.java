@@ -1,7 +1,6 @@
 package it.unipd.dei.index;
 
 import it.unipd.dei.corpus.CorpusParser;
-import it.unipd.dei.pipeline.IndexTimingInfo;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -16,9 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.AbstractMap;
 import java.util.Iterator;
-import java.util.Map;
 
 
 /**
@@ -127,14 +124,14 @@ public class BoWIndexer implements Indexer
 
 
     /**
-     * Return an {@link Iterator} of {@link Map.Entry}&lt;{@link Integer},{@link IndexTimingInfo}&gt;,
-     * each one representing the number of documents indexed and the timing information for a specific chunk.
+     * Return an {@link Iterator} of {@link Integer}, each one representing the number of documents
+     * indexed for a specific chunk.
      *
-     * @return An {@link Iterator} of {@link Map.Entry}&lt;{@link Integer},{@link IndexTimingInfo}&gt;.
+     * @return An {@link Iterator} of {@link Integer}.
      */
     @NotNull
     @Override
-    public Iterator<Map.Entry<Integer, IndexTimingInfo>> iterator()
+    public Iterator<Integer> iterator()
     {
         return this;
     }
@@ -172,27 +169,22 @@ public class BoWIndexer implements Indexer
     /**
      * Process the next chunk of documents.
      *
-     * @return A pair with the number of documents indexed in this chunk and with timing information.
+     * @return The number of documents indexed in this chunk.
      * @throws RuntimeException If an exception has occurred while performing indexing.
      */
     @Override
-    public Map.Entry<Integer, IndexTimingInfo> next()
+    public Integer next()
     {
         if (parser == null)
             throw new RuntimeException("This object has not been initialized, using the init() method.");
 
         try
         {
-            final IndexTimingInfo timingInfo = new IndexTimingInfo(1000L);
-
-            timingInfo.subTotal(System.currentTimeMillis());
-
             // Return null if there are no more chunks to index.
             if (!hasNext())
                 return null;
 
             int counter = 0;
-            timingInfo.subParse(System.currentTimeMillis());
             while ((parser.hasNext()) && (counter < chunksSize))
             {
                 // Read the next document from the collection parser.
@@ -200,9 +192,6 @@ public class BoWIndexer implements Indexer
                 if ((parDoc == null) || (parDoc.id == null) || (parDoc.text == null) || (parDoc.content == null) ||
                         (parDoc.id.isBlank()) || (parDoc.text.isBlank()) || (parDoc.content.isBlank()))
                     continue;
-
-                timingInfo.addParse(System.currentTimeMillis());
-                timingInfo.subIndex(System.currentTimeMillis());
 
                 // Add the ID, text and content fields to the Lucene representation of the document.
                 final Document doc = new Document();
@@ -213,21 +202,13 @@ public class BoWIndexer implements Indexer
                 // Add the document to the Lucene index.
                 writer.addDocument(doc);
                 counter++;
-
-                timingInfo.addIndex(System.currentTimeMillis());
-                timingInfo.subParse(System.currentTimeMillis());
             }
 
-            timingInfo.addParse(System.currentTimeMillis());
-
             // Commit all data added to the Lucene index on permanent storage.
-            timingInfo.subIndex(System.currentTimeMillis());
             writer.commit();
-            timingInfo.addIndex(System.currentTimeMillis());
-            timingInfo.addTotal(System.currentTimeMillis());
 
             // Return progress information about the indexing of this chunk.
-            return new AbstractMap.SimpleImmutableEntry<>(counter, timingInfo);
+            return counter;
         }
         catch (Throwable th)
         {

@@ -3,7 +3,6 @@ package it.unipd.dei.index;
 import it.unipd.dei.corpus.CorpusParser;
 import it.unipd.dei.exception.PythonRuntimeException;
 import it.unipd.dei.external.ExternalScriptDriver;
-import it.unipd.dei.pipeline.IndexTimingInfo;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -187,14 +186,14 @@ public class SpladeIndexer implements Indexer
 
 
     /**
-     * Return an {@link Iterator} of {@link Map.Entry}&lt;{@link Integer},{@link IndexTimingInfo}&gt;,
-     * each one representing the number of documents indexed and the timing information for a specific chunk.
+     * Return an {@link Iterator} of {@link Integer}, each one representing the number of documents
+     * indexed for a specific chunk.
      *
-     * @return An {@link Iterator} of {@link Map.Entry}&lt;{@link Integer},{@link IndexTimingInfo}&gt;.
+     * @return An {@link Iterator} of {@link Integer}.
      */
     @NotNull
     @Override
-    public Iterator<Map.Entry<Integer, IndexTimingInfo>> iterator()
+    public Iterator<Integer> iterator()
     {
         return this;
     }
@@ -230,12 +229,8 @@ public class SpladeIndexer implements Indexer
 
 
     // Process a batch of documents and index them using Lucene.
-    private IndexTimingInfo processBatch(List<Map.Entry<String, String>> batchData) throws Exception
+    private void processBatch(List<Map.Entry<String, String>> batchData) throws Exception
     {
-        final IndexTimingInfo timingInfo = new IndexTimingInfo(1000L);
-
-        timingInfo.subExternal(System.currentTimeMillis());
-
         /*
         Wait for Python script to output a synchronization line in error stream after having
         successfully rewritten the utterance. When reading from error stream two cases are possible:
@@ -247,9 +242,6 @@ public class SpladeIndexer implements Indexer
         if (!errRun.isBlank())
             throw new PythonRuntimeException(errRun);
 
-        timingInfo.addExternal(System.currentTimeMillis());
-        timingInfo.subIndex(System.currentTimeMillis());
-
         for (final Map.Entry<String, String> entry : batchData)
         {
             final String id = entry.getKey();
@@ -260,9 +252,6 @@ public class SpladeIndexer implements Indexer
             doc.add(new StringField(ParsedDocument.ID_FIELD_NAME, id, Field.Store.YES));
             doc.add(new TextField(ParsedDocument.TEXT_FIELD_NAME, text, Field.Store.YES));
 
-            timingInfo.addIndex(System.currentTimeMillis());
-            timingInfo.subExternal(System.currentTimeMillis());
-
             // Read the data to index given by the SPLADE model.
             final int numTokens = Integer.parseInt(sd.waitNextOutputLine());
             for (int i = 0; i < numTokens; i++)
@@ -271,48 +260,30 @@ public class SpladeIndexer implements Indexer
                 final String token = sd.waitNextOutputLine();
                 final int num = Integer.parseInt(sd.waitNextOutputLine());
 
-                timingInfo.addExternal(System.currentTimeMillis());
-                timingInfo.subIndex(System.currentTimeMillis());
-
                 // Add the given token "integer score" times in the content field of the document.
                 doc.add(new ContentFieldWithoutNorms((token + " ").repeat(num)));
-
-                timingInfo.addIndex(System.currentTimeMillis());
-                timingInfo.subExternal(System.currentTimeMillis());
             }
-
-            timingInfo.addExternal(System.currentTimeMillis());
-            timingInfo.subIndex(System.currentTimeMillis());
 
             // Add the document to the Lucene index.
             writer.addDocument(doc);
-
-            timingInfo.addIndex(System.currentTimeMillis());
         }
-
-        // Return timing information.
-        return timingInfo;
     }
 
 
     /**
      * Process the next chunk of documents.
      *
-     * @return A pair with the number of documents indexed in this chunk and with timing information.
+     * @return The number of documents indexed in this chunk.
      * @throws RuntimeException If an exception has occurred while performing indexing.
      */
     @Override
-    public Map.Entry<Integer, IndexTimingInfo> next()
+    public Integer next()
     {
         if (parser == null)
             throw new RuntimeException("This object has not been initialized, using the init() method.");
 
         try
         {
-            final IndexTimingInfo timingInfo = new IndexTimingInfo(1000L);
-
-            timingInfo.subTotal(System.currentTimeMillis());
-
             // Return null if there are no more chunks to index.
             if (!hasNext())
                 return null;
@@ -323,7 +294,6 @@ public class SpladeIndexer implements Indexer
             int batchCounter = 0;
             List<Map.Entry<String, String>> batchData = new ArrayList<>();
 
-            timingInfo.subParse(System.currentTimeMillis());
             while ((parser.hasNext()) && (counter < chunksSize))
             {
                 // Read the next document from the collection parser.
@@ -332,39 +302,26 @@ public class SpladeIndexer implements Indexer
                         (parDoc.id.isBlank()) || (parDoc.text.isBlank()) || (parDoc.content.isBlank()))
                     continue;
 
-                timingInfo.addParse(System.currentTimeMillis());
-                timingInfo.subIndex(System.currentTimeMillis());
-
                 // Save the ID of the document in the batch.
                 batchData.add(new AbstractMap.SimpleImmutableEntry<>(parDoc.id, parDoc.text));
 
                 // Write the content to SPLADE (Python code).
                 toIn.println(parDoc.content);
 
-                timingInfo.addIndex(System.currentTimeMillis());
-                timingInfo.subParse(System.currentTimeMillis());
-
                 counter++;
                 batchCounter++;
                 if (batchCounter < batchSize)
                     continue;
 
-                timingInfo.addParse(System.currentTimeMillis());
-
                 toIn.flush();
 
                 // Process the batch of documents.
-                final IndexTimingInfo timing = processBatch(batchData);
-                timingInfo.add(timing);
+                processBatch(batchData);
 
                 // Reset the batch status to empty.
                 batchCounter = 0;
                 batchData = new ArrayList<>();
-
-                timingInfo.subParse(System.currentTimeMillis());
             }
-
-            timingInfo.addParse(System.currentTimeMillis());
 
             // Process the half-filled batch of the remaining documents, if necessary.
             if (batchCounter > 0)
@@ -372,18 +329,14 @@ public class SpladeIndexer implements Indexer
                 toIn.println();
                 toIn.flush();
 
-                final IndexTimingInfo timing = processBatch(batchData);
-                timingInfo.add(timing);
+                processBatch(batchData);
             }
 
             // Commit all data added to the Lucene index on permanent storage.
-            timingInfo.subIndex(System.currentTimeMillis());
             writer.commit();
-            timingInfo.addIndex(System.currentTimeMillis());
-            timingInfo.addTotal(System.currentTimeMillis());
 
             // Return progress information about the indexing of this chunk.
-            return new AbstractMap.SimpleImmutableEntry<>(counter, timingInfo);
+            return counter;
         }
         catch (Throwable th)
         {

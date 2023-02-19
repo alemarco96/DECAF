@@ -21,7 +21,7 @@ import java.util.Map;
 @SuppressWarnings({"unused", "FieldCanBeLocal"})
 public class IndexPipeline extends AbstractPipeline
 {
-    private final CorpusParser parser;
+    private final CorpusParser corpusParser;
     private final Indexer indexer;
     private final int numThreads;
 
@@ -88,14 +88,17 @@ public class IndexPipeline extends AbstractPipeline
             // ******************** Corpus Parser ********************
             timingInfo.subCreation(System.currentTimeMillis());
 
-            final String corpusStr = driver.getProperty("launch.corpus");
-            if (corpusStr == null)
+            final String corpusParserStr = driver.getProperty("launch.corpus");
+            if (corpusParserStr == null)
                 throw new RuntimeException("No valid corpus parser has been found in the launch configuration.");
 
-            parser = PropertiesUtils.retrieveObject(driver, String.format("corpus.%s", corpusStr),
+            corpusParser = PropertiesUtils.retrieveObject(driver, String.format("corpus.%s", corpusParserStr),
                     CorpusParser.class);
 
             timingInfo.addCreation(System.currentTimeMillis());
+
+            System.out.printf(Locale.US, "Corpus Parser \"%s\" created in %.3f s.\n",
+                    corpusParserStr, timingInfo.getCreation());
 
             // ******************** Indexer ********************
             timingInfo.subCreation(System.currentTimeMillis());
@@ -107,7 +110,7 @@ public class IndexPipeline extends AbstractPipeline
             indexer = PropertiesUtils.retrieveObject(driver, String.format("indexer.%s", indexerStr),
                     Indexer.class);
 
-            indexer.init(parser);
+            indexer.init(corpusParser);
 
             timingInfo.addCreation(System.currentTimeMillis());
 
@@ -156,19 +159,18 @@ public class IndexPipeline extends AbstractPipeline
 
             while (indexer.hasNext())
             {
-                timingInfo.addTotal(System.currentTimeMillis());
+                timingInfo.subIndex(System.currentTimeMillis());
+                final Integer numDocumentsIndexed = indexer.next();
+                timingInfo.addIndex(System.currentTimeMillis());
 
-                final Map.Entry<Integer, IndexTimingInfo> entry = indexer.next();
-                final int numDocumentsIndexed = entry.getKey();
-                final IndexTimingInfo timing = entry.getValue();
+                // Retry if the returned value is null.
+                if (numDocumentsIndexed == null)
+                    continue;
 
-                timingInfo.add(timing);
                 counter++;
 
                 System.out.printf(Locale.US, "Chunk #%d (with %d documents) indexed in %.3f s!\n",
                         counter, numDocumentsIndexed, timingInfo.getTotal());
-
-                timingInfo.subTotal(System.currentTimeMillis());
             }
 
             timingInfo.addTotal(System.currentTimeMillis());

@@ -191,7 +191,7 @@ cases, make sure to create the `allennlp_spacy_transformers` virtual environment
 
 The provided launch scripts must be edited to point to the correct locations on disk. Please follow this procedure:
 
-- Edit both `index.sh` and `search.sh` launch scripts, located inside the `scripts/` subfolder. In line 4, change the
+- Edit both `index.sh` and `search.sh` launch scripts, located inside the `scripts/` subfolder. In line 7, change the
   value of the environmental variable `DECAF_ROOT_FOLDER` with the location of the root folder of the framework. The
   value required is the same as the homonym environmental variable created before in step 1.
 

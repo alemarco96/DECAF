@@ -40,24 +40,26 @@ The first step is to download all data necessary to conduct our experiments, fol
 
   ```
   cd corpora/
-  mkdir MS-MARCO-passages
-  cd MS-MARCO-passages/
+  mkdir MS-MARCO-passage
+  cd MS-MARCO-passage/
   wget https://msmarco.blob.core.windows.net/msmarcoranking/collection.tar.gz
   tar -xf collection.tar.gz
   rm collection.tar.gz
-  cd ../TREC-CAR/
+  cd ..
+  mkdir TREC-CAR
+  cd TREC-CAR/
   wget https://trec-car.cs.unh.edu/datareleases/v2.0/paragraphCorpus.v2.0.tar.xz
   tar -xf paragraphCorpus.v2.0.tar.xz
   mv paragraphCorpus/dedup.articles-paragraphs.cbor dedup.articles-paragraphs.cbor
   rm -r paragraphCorpus/
   rm paragraphCorpus.v2.0.tar.xz
-  cd ..
+  cd ../..
   ```
 
 - Download the list of duplicates for MS-MARCO passages dataset, provided by TREC CAsT organizers:
 
   ```
-  cd corpora/MS-MARCO-passages/
+  cd corpora/MS-MARCO-passage/
   wget https://boston.lti.cs.cmu.edu/Services/treccast19/duplicate_list_v1.0.txt
   cd ../..
   ```
@@ -80,6 +82,7 @@ The first step is to download all data necessary to conduct our experiments, fol
 - Download the qrels for TREC CAsT 2019 and 2020 into the `qrels` sub-folder:
 
   ```
+  mkdir qrels
   cd qrels/
   wget https://raw.githubusercontent.com/daltonj/treccastweb/master/2019/data/2019qrels.txt
   mv 2019qrels.txt cast2019_evaluation.qrels
@@ -210,43 +213,35 @@ and 2020 datasets.
 
 | Number |  Topics   | Rewriter |  Searcher  | Reranker | Recall@100 | MRR  | NDCG@3 | NDCG@10 |
 |:------:|:---------:|:--------:|:----------:|:--------:|:----------:|:----:|:------:|:-------:|
-|   1    | Automatic |    --    |   BM25_C   |    --    |    19.9    | 31.8 |  13.7  |  14.2   |
-|   2    | Automatic |    CR    |   BM25_C   |    --    |    35.2    | 52.0 |  25.5  |  25.3   |
-|   3    | Automatic |    T5    |   BM25_C   |    --    |    42.6    | 64.5 |  33.7  |  32.0   |
-|   4    | Automatic |    --    |  BM25_FLC  |    --    |    23.9    | 40.6 |  18.3  |  17.9   |
-|   5    | Automatic |    CR    |  BM25_FLC  |    --    |    39.8    | 57.6 |  28.9  |  27.6   |
-|   6    | Automatic |    T5    |  BM25_FLC  |    --    |    44.8    | 65.6 |  34.1  |  32.0   |
-|   7    | Automatic |    --    |   BM25_C   |   BERT   |    19.9    | 48.1 |  27.8  |  24.7   |
-|   8    | Automatic |    CR    |   BM25_C   |   BERT   |    35.2    | 68.5 |  42.3  |  38.0   |
-|   9    | Automatic |    T5    |   BM25_C   |   BERT   |    42.6    | 79.4 |  49.8  |  44.4   |
-|   10   | Automatic |    --    |  BM25_FLC  |   BERT   |    23.9    | 51.5 |  30.5  |  27.1   |
-|   11   | Automatic |    CR    |  BM25_FLC  |   BERT   |    39.8    | 70.6 |  44.6  |  40.4   |
-|   12   | Automatic |    T5    |  BM25_FLC  |   BERT   |    44.8    | 80.3 |  49.8  |  45.3   |
-|   13   | Automatic |    --    |   BERT_C   |    --    |    19.0    | 22.7 |  11.9  |  14.0   |
-|   14   | Automatic |    CR    |   BERT_C   |    --    |    33.5    | 40.1 |  23.1  |  25.1   |
-|   15   | Automatic |    T5    |   BERT_C   |    --    |    43.0    | 52.3 |  30.1  |  32.6   |
-|   16   | Automatic |    T5    |  BERT_FLC  |    --    |    43.0    | 52.3 |  30.1  |  32.6   |
-|   17   | Automatic |    --    |  SPLADE_C  |    --    |    24.7    | 44.2 |  27.0  |  26.1   |
-|   18   | Automatic |    CR    |  SPLADE_C  |    --    |    41.8    | 67.5 |  44.1  |  41.6   |
-|   19   | Automatic |    T5    |  SPLADE_C  |    --    |    51.4    | 79.6 |  51.9  |  49.5   |
-|   20   | Automatic |    T5    | SPLADE_FLC |    --    |    48.1    | 75.5 |  48.4  |  44.0   |
-|   21   |  Manual   |    --    |   BM25_C   |    --    |    47.5    | 67.2 |  34.7  |  34.4   |
-|   22   |  Manual   |    --    |   BM25_C   |   BERT   |    47.5    | 82.3 |  53.9  |  47.5   |
-|   23   |  Manual   |    --    |   BERT_C   |    --    |    46.2    | 54.0 |  32.5  |  34.8   |
-|   24   |  Manual   |    --    |  SPLADE_C  |    --    |    54.8    | 83.7 |  56.0  |  52.7   |
+|   1    | Automatic |    --    |   BM25_C   |    --    |    20.0    | 32.0 |  14.3  |  14.5   |
+|   2    | Automatic |    CR    |   BM25_C   |    --    |    35.4    | 52.1 |  26.0  |  25.6   |
+|   3    | Automatic |    T5    |   BM25_C   |    --    |    42.9    | 64.6 |  34.1  |  32.3   |
+|   4    | Automatic |    --    |  BM25_FLC  |    --    |    24.1    | 40.8 |  19.0  |  18.2   |
+|   5    | Automatic |    T5    |  BM25_FLC  |    --    |    45.0    | 65.7 |  34.4  |  32.3   |
+|   6    | Automatic |    --    |   BM25_C   |   BERT   |    20.0    | 48.6 |  28.5  |  25.1   |
+|   7    | Automatic |    T5    |   BM25_C   |   BERT   |    42.9    | 79.1 |  50.4  |  45.0   |
+|   8    | Automatic |    --    |  BM25_FLC  |   BERT   |    24.1    | 52.1 |  31.1  |  27.6   |
+|   9    | Automatic |    T5    |  BM25_FLC  |   BERT   |    45.0    | 80.0 |  50.5  |  45.9   |
+|   10   | Automatic |    T5    |   BERT_C   |    --    |    43.2    | 52.3 |  30.4  |  33.1   |
+|   11   | Automatic |    --    |  SPLADE_C  |    --    |    24.8    | 44.8 |  27.5  |  26.7   |
+|   12   | Automatic |    T5    |  SPLADE_C  |    --    |    51.5    | 79.9 |  52.3  |  50.1   |
+|   13   |  Manual   |    --    |   BM25_C   |    --    |    47.7    | 67.4 |  35.5  |  34.7   |
+|   14   |  Manual   |    --    |   BM25_C   |   BERT   |    47.7    | 82.3 |  54.4  |  48.0   |
+|   15   |  Manual   |    --    |   BERT_C   |    --    |    46.4    | 54.3 |  32.8  |  35.5   |
+|   16   |  Manual   |    --    |  SPLADE_C  |    --    |    54.9    | 84.3 |  56.6  |  53.5   |
 
 - Table of experiments on TREC CAsT 2020:
 
 | Number |  Topics   | Rewriter | Searcher | Reranker | Recall@100 | MRR  | NDCG@3 | NDCG@10 |
 |:------:|:---------:|:--------:|:--------:|:--------:|:----------:|:----:|:------:|:-------:|
-|   1    | Automatic |    T5    |  BM25_C  |    --    |    29.1    | 26.8 |  16.7  |  17.6   |
-|   2    | Automatic |    T5    |  BM25_C  |   BERT   |    29.1    | 43.0 |  31.3  |  29.2   |
-|   3    | Automatic |    T5    |  BERT_C  |    --    |    40.2    | 34.2 |  23.6  |  23.2   |
-|   4    | Automatic |    T5    | SPLADE_C |    --    |    46.5    | 45.6 |  35.0  |  32.3   |
-|   5    |  Manual   |    --    |  BM25_C  |    --    |    41.4    | 40.2 |  25.3  |  25.7   |
-|   6    |  Manual   |    --    |  BM25_C  |   BERT   |    41.4    | 57.1 |  42.7  |  40.2   |
-|   7    |  Manual   |    --    |  BERT_C  |    --    |    56.2    | 50.6 |  35.4  |  34.3   |
-|   8    |  Manual   |    --    | SPLADE_C |    --    |    61.3    | 62.4 |  47.4  |  44.5   |
+|   1    | Automatic |    T5    |  BM25_C  |    --    |    29.3    | 26.9 |  16.8  |  17.8   |
+|   2    | Automatic |    T5    |  BM25_C  |   BERT   |    29.3    | 43.0 |  31.7  |  29.5   |
+|   3    | Automatic |    T5    |  BERT_C  |    --    |    40.4    | 34.2 |  23.6  |  23.5   |
+|   4    | Automatic |    T5    | SPLADE_C |    --    |    46.7    | 45.6 |  35.1  |  32.7   |
+|   5    |  Manual   |    --    |  BM25_C  |    --    |    41.6    | 40.3 |  25.4  |  25.9   |
+|   6    |  Manual   |    --    |  BM25_C  |   BERT   |    41.6    | 57.7 |  43.4  |  40.6   |
+|   7    |  Manual   |    --    |  BERT_C  |    --    |    56.4    | 50.8 |  35.6  |  34.7   |
+|   8    |  Manual   |    --    | SPLADE_C |    --    |    61.5    | 62.4 |  47.8  |  44.9   |
 
 - Configuration parameters to set in the `search.properties` file:
 

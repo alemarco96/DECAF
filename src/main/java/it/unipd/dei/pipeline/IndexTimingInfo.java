@@ -15,9 +15,9 @@ public final class IndexTimingInfo
 
     private long total;
     private long creation;
-    private long parse;
+    //private long parse;
     private long index;
-    private long external;
+    //private long external;
 
 
     /**
@@ -37,9 +37,9 @@ public final class IndexTimingInfo
         invTicks = 1.0 / ticks;
         total = 0L;
         creation = 0L;
-        parse = 0L;
+        //parse = 0L;
         index = 0L;
-        external = 0L;
+        //external = 0L;
     }
 
 
@@ -58,9 +58,9 @@ public final class IndexTimingInfo
         {
             total += timing.total;
             creation += timing.creation;
-            parse += timing.parse;
+            //parse += timing.parse;
             index += timing.index;
-            external += timing.external;
+            //external += timing.external;
         }
         else
         {
@@ -68,9 +68,9 @@ public final class IndexTimingInfo
 
             total += Math.round(k * timing.total);
             creation += Math.round(k * timing.creation);
-            parse += Math.round(k * timing.parse);
+            //parse += Math.round(k * timing.parse);
             index += Math.round(k * timing.index);
-            external += Math.round(k * timing.external);
+            //external += Math.round(k * timing.external);
         }
     }
 
@@ -90,9 +90,9 @@ public final class IndexTimingInfo
         {
             total -= timing.total;
             creation -= timing.creation;
-            parse -= timing.parse;
+            //parse -= timing.parse;
             index -= timing.index;
-            external -= timing.external;
+            //external -= timing.external;
         }
         else
         {
@@ -100,9 +100,9 @@ public final class IndexTimingInfo
 
             total -= Math.round(k * timing.total);
             creation -= Math.round(k * timing.creation);
-            parse -= Math.round(k * timing.parse);
+            //parse -= Math.round(k * timing.parse);
             index -= Math.round(k * timing.index);
-            external -= Math.round(k * timing.external);
+            //external -= Math.round(k * timing.external);
         }
     }
 
@@ -129,15 +129,16 @@ public final class IndexTimingInfo
     }
 
 
-    /**
+    /*
      * Add the provided value to the Parse timer.
      *
      * @param time The value to sum.
-     */
+     /
     public void addParse(long time)
     {
         parse += time;
     }
+    */
 
 
     /**
@@ -151,15 +152,16 @@ public final class IndexTimingInfo
     }
 
 
-    /**
+    /*
      * Add the provided value to the External timer.
      *
      * @param time The value to sum.
-     */
+     /
     public void addExternal(long time)
     {
         external += time;
     }
+    */
 
 
     /**
@@ -184,15 +186,16 @@ public final class IndexTimingInfo
     }
 
 
-    /**
+    /*
      * Get the value stored in the Parse timer.
      *
      * @return The value stored in the Parse timer.
-     */
+     /
     public double getParse()
     {
         return parse * invTicks;
     }
+    */
 
 
     /**
@@ -206,15 +209,16 @@ public final class IndexTimingInfo
     }
 
 
-    /**
+    /*
      * Get the value stored in the External timer.
      *
      * @return The value stored in the External timer.
-     */
+     /
     public double getExternal()
     {
         return external * invTicks;
     }
+    */
 
 
     /**
@@ -239,15 +243,16 @@ public final class IndexTimingInfo
     }
 
 
-    /**
+    /*
      * Subtract the provided value to the Parse timer.
      *
      * @param time The value to subtract.
-     */
+     /
     public void subParse(long time)
     {
         parse -= time;
     }
+    */
 
 
     /**
@@ -261,15 +266,16 @@ public final class IndexTimingInfo
     }
 
 
-    /**
+    /*
      * Subtract the provided value to the External timer.
      *
      * @param time The value to subtract.
-     */
+     /
     public void subExternal(long time)
     {
         external -= time;
     }
+    */
 
 
     /**
@@ -282,14 +288,14 @@ public final class IndexTimingInfo
         return String.format(Locale.US, "" +
                 "Total time:         %.3f s.\n" +
                 "Creation time:      %.3f s, equal to %.3f %% of total time.\n" +
-                "Parse time:         %.3f s, equal to %.3f %% of total time.\n" +
-                "Index time:         %.3f s, equal to %.3f %% of total time.\n" +
-                "External code time: %.3f s, equal to %.3f %% of total time.\n",
+                //"Parse time:         %.3f s, equal to %.3f %% of total time.\n" +
+                "Index time:         %.3f s, equal to %.3f %% of total time.\n", //+
+                //"External code time: %.3f s, equal to %.3f %% of total time.\n",
                 total * invTicks,
                 creation * invTicks, ((100.0 * creation) / total),
-                parse * invTicks, ((100.0 * parse) / total),
-                index * invTicks, ((100.0 * index) / total),
-                external * invTicks, ((100.0 * external) / total)
+                //parse * invTicks, ((100.0 * parse) / total),
+                index * invTicks, ((100.0 * index) / total) //,
+                //external * invTicks, ((100.0 * external) / total)
         );
     }
 }

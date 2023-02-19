@@ -18,8 +18,8 @@ import java.util.Map;
  *
  * @author Marco Alessio
  */
-public interface Indexer extends Iterator<Map.Entry<Integer, IndexTimingInfo>>,
-        Iterable<Map.Entry<Integer, IndexTimingInfo>>, AutoCloseable
+public interface Indexer extends Iterable<Integer>, Iterator<Integer>, AutoCloseable
+        //Iterator<Map.Entry<Integer, IndexTimingInfo>>, Iterable<Map.Entry<Integer, IndexTimingInfo>>, AutoCloseable
 {
     /**
      * Initialize the current object with the corpus parser needed to index the data. This method should
