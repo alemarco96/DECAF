@@ -7,6 +7,13 @@ adapt to suit most applications' needs while reusing most of the pre-defined com
 in Java, while some components are implemented in Python. All machine-learning code supports acceleration through
 CUDA-enabled GPU. It is developed at the [University of Padua](https://www.unipd.it/).
 
+## License ##
+
+All the contents of this repository are shared using the
+[Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
+
+![CC logo](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)
+
 ## How to setup the Framework
 
 Refer to the [Installation](INSTALLATION_GUIDE.md) guide for further details.
