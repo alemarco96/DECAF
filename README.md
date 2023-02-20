@@ -208,9 +208,10 @@ DECAF comes with several components already available out of the box.
 
 - `MSMARCOv1`
 
-  It allows for parsing passages contained within MS-MARCO version 1. There is also support for duplicate removal, by
-  providing an additional textual file. Each line must use the `<KEEP ID>:<DUPLICATE 1 ID>,<DUPLICATE 2 ID>,...\n`
-  format, so all documents whose ID appears as a duplicate are discarded.
+  It allows for parsing passages contained within MS-MARCO version 1 dataset. There is also support for duplicate
+  removal, by providing an additional textual file. Each line must use the
+  `<KEEP ID>:<DUPLICATE 1 ID>,<DUPLICATE 2 ID>,...\n` format, so all documents whose ID appears as a duplicate
+  are discarded.
 
 - `TRECCARv2`
 
@@ -218,7 +219,7 @@ DECAF comes with several components already available out of the box.
 
 - `Tsv`
 
-  It processes any corpus based on tab-separated files using the `<DOC_ID>\t<DOC TEXT>\n` format.
+  It processes any corpus based on tab-separated files using the `<DOC ID>\t<DOC TEXT>\n` format.
 
 - `Multi`
 
@@ -234,7 +235,7 @@ DECAF comes with several components already available out of the box.
 
 - `Splade`
 
-  This `BoW` indexer implementation is specific for the homonyms neural retrieval model. It replaces the standard
+  This BoW indexer implementation is specific for the homonyms neural retrieval model. It replaces the standard
   tokenization and analysis pipeline performed by Lucene with the SPLADE model inference.
 
 - `Dense`
