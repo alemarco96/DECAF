@@ -1,4 +1,4 @@
-# TREC CAsT 2019 Experiments
+# TREC CAsT 2020 Experiments
 
 This folder contains all experiments conducted on the TREC CAsT 2020 dataset.
 
