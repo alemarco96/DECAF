@@ -54,19 +54,20 @@ The repository is organized following this structure:
 
   * `corpora`
 
-    This folder contains the corpora used for indexing.
+    This folder must be populated with the corpora data that will be processed by the index pipeline.
 
   * `indexes`
 
-    This folder contains the indexes created with the framework.
+    This folder contains the indexes data that will be produced by the index pipeline.
 
   * `models`
 
-    This folder contains the machine-learning models employed.
+    This folder contains the machine-learning models employed. It must be populated according to the procedure shown in
+    [Section 3](INSTALLATION_GUIDE.md#step-3--download-all-models) of the Installation Guide.
 
   * `runs`
 
-    This folder contains the runs produced using the search pipeline.
+    This folder contains the runs that will be generated using the search pipeline.
 
   * `scripts`
 
@@ -74,11 +75,13 @@ The repository is organized following this structure:
 
   * `topics`
 
-    This folder contains the evaluation topics files.
+    This folder must be populated with the evaluation topics files that will be used during the search phase.
 
   * `venv`
 
-    This folder contains the Python virtual environments employed by the components.
+    This folder contains the Python virtual environments employed by the components. It must be populated according to
+    the procedure shown in [Section 2](INSTALLATION_GUIDE.md#step-2--setup-python-virtual-environments) of the
+    Installation Guide.
 
 
 - [`CONFIGURATION_GUIDE.md`](CONFIGURATION_GUIDE.md)
