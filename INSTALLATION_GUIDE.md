@@ -54,12 +54,12 @@ according to the following procedure:
   pip install pip --upgrade pip
   ```
 
-- Choose a folder where all Python virtual environments will be stored. For the remainder of this guide, the `venv`
-  subdirectory inside the root folder will be used. In case you choose differently, just change it with the appropriate
-  value. Make sure to not put a forward slash (`/`) at the end of the command.
+- Choose a folder where all Python virtual environments will be stored. For the remainder of this guide, the
+  `template/venv` subdirectory inside the root folder will be used. In case you choose differently, just change it with
+  the appropriate value. Make sure to not put a forward slash (`/`) at the end of the command.
 
   ```
-  DECAF_VENV_FOLDER="$DECAF_ROOT_FOLDER/venv"
+  DECAF_VENV_FOLDER="$DECAF_ROOT_FOLDER/template/venv"
   ```
 
 - Create the `faiss_fastcoref_spacy_transformers` virtual environment:
@@ -102,11 +102,11 @@ according to the following procedure:
 This framework relies on some machine-learning models to perform its job. Before being able to use the framework,
 users are required to download them and save them on disk. Please follow this procedure:
 
-- Choose a folder where all machine-learning models will be stored. For the remainder of this guide, the `models`
-  subdirectory inside the root folder will be used. In case you choose differently, just change it with the appropriate
-  value. Make sure to not put a forward slash (`/`) at the end of the command.
+- Choose a folder where all machine-learning models will be stored. For the remainder of this guide, the
+  `template/models` subdirectory inside the root folder will be used. In case you choose differently, just change it
+  with the appropriate value. Make sure to not put a forward slash (`/`) at the end of the command.
   ```
-  DECAF_MODELS_FOLDER="$DECAF_ROOT_FOLDER/models"
+  DECAF_MODELS_FOLDER="$DECAF_ROOT_FOLDER/template/models"
   ```
 
 - Create the folder where to place all AllenNLP models:
@@ -128,7 +128,7 @@ For each model, repeat these steps:
   * From the [HuggingFace](https://huggingface.co/) website main page, search for the desired model's page using the
     text box placed in the top-left corner.
 
-  * Create a new folder inside the `models/transformers` subdirectory with the same name as the desired one.
+  * Create a new folder inside the `template/models/transformers` subdirectory with the same name as the desired one.
   
   * Download all files from the `Files and versions` tab of the model card page on HuggingFace and place them inside
     the folder created in the previous step. Note that, in case there are multiple files with the `LFS` symbol
@@ -154,12 +154,12 @@ For each model, repeat these steps:
   * [t5-base-canard](https://huggingface.co/castorini/t5-base-canard)
 
 
-- In case a model is not needed anymore, its folder inside the `models/transformers` directory can be deleted.
+- In case a model is not needed anymore, its folder inside the `template/models/transformers` directory can be deleted.
 
 ### Download all AllenNLP models
 
-This step is required only if the `AllenNLP` rewriter is employed, otherwise it can be safely skipped. In affirmative
-cases, make sure to create the `allennlp_spacy_transformers` virtual environment as well.
+This step is required only if the `AllenNLP` rewriter is employed, otherwise it can be safely skipped. In such case,
+make sure to create the `allennlp_spacy_transformers` virtual environment as well.
 
 - For each model, repeat these steps:
 
@@ -169,7 +169,7 @@ cases, make sure to create the `allennlp_spacy_transformers` virtual environment
   * Read the model card's JSON file, looking for the `model_usage/archive_file` property. It gives the filename of the
     archive that must be downloaded to use the model.
 
-  * Create a new folder inside the `models/allennlp` subdirectory with the same name as the desired model.
+  * Create a new folder inside the `template/models/allennlp` subdirectory with the same name as the desired model.
 
   * Download the model archive and decompress it:
 
@@ -187,13 +187,22 @@ cases, make sure to create the `allennlp_spacy_transformers` virtual environment
 
   * [coref-spanbert-large](https://storage.googleapis.com/allennlp-public-models/coref-spanbert-large-2021.03.10.tar.gz)
 
+- In case a model is not needed anymore, its folder inside the `template/models/allennlp` directory can be deleted.
+
 ## Step 4: Edit the launch scripts
 
 The provided launch scripts must be edited to point to the correct locations on disk. Please follow this procedure:
 
-- Edit both `index.sh` and `search.sh` launch scripts, located inside the `scripts/` subfolder. In line 7, change the
-  value of the environmental variable `DECAF_ROOT_FOLDER` with the location of the root folder of the framework. The
-  value required is the same as the homonym environmental variable created before in step 1.
+- Edit both `index.sh` and `search.sh` launch scripts, located inside the `template/scripts` subfolder.
+
+  * In line 7, change the value of the environmental variable `DECAF_ROOT_FOLDER` with the location of the root folder
+    of the framework. The value required is the same as the homonym environmental variable created before in step 1.
+
+  * In case the Python virtual environments have been placed in a different folder than the default one in step 2,
+    change the value of the environmental variable `DECAF_VENV_FOLDER` (line 19) with the correct value.
+
+  * In case the machine-learning models have been placed in a different folder than the default one in step 3,
+    change the value of the environmental variable `DECAF_MODELS_FOLDER` (line 22) with the correct value.
 
 # Uninstall
 
@@ -201,5 +210,5 @@ For uninstalling the framework, it is sufficient to delete the root folder of DE
 documentation, data and models, using the following commands:
 ```
 cd /path/to/desired/location
-rm -r DECAF
+rm -rf DECAF
 ```

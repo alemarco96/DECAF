@@ -68,10 +68,10 @@ import java.util.Map;
  *
  *         <p>
  *         Example: {@code long[][] variable = new long[2]; variable[0] = new long[]{ 1L, 2L, 3L };
- *         variable[2] = new long[]{ 4L, 5L, 6L };}
+ *         variable[1] = new long[]{ 4L, 5L, 6L };}
  *         <ul>
  *             <li>{@code <base_key>.type = long[][]}</li>
- *             <li>{@code <base_key> = [ [ 1, 2, 3 ], [ 4, 5, 6 ] }</li>
+ *             <li>{@code <base_key> = [ [ 1, 2, 3 ], [ 4, 5, 6 ] ] }</li>
  *         </ul>
  *     </li>
  * </ol>
@@ -121,7 +121,6 @@ import java.util.Map;
  *             <li>{@code <prefix>.x.params.file.y.class = java.io.File}</li>
  *             <li>{@code <prefix>.x.params.file.y.params = filename}</li>
  *             <li>{@code <prefix>.x.params.file.y.params.filename = /path/to/file.txt}</li>
- *             <li>{@code <prefix>.x.params.charset.type = java.lang.String}</li>
  *             <li>{@code <prefix>.x.params.charset = UTF-8}</li>
  *         </ul>
  *     </li>
@@ -137,26 +136,29 @@ import java.util.Map;
  * In the definition of complex variables, the {@code <id>} and {@code <param>} are any valid identifier (any string
  * without a dot). The {@code <id>} enables to define multiple alternatives for that field: by only changes
  * the value {@code <id>} in this line, a different object is instantiated at runtime. Consider this example:
- * while defining the {@link BoWSearcher} on the {@code .properties} file, a similarity
- * function must be specified. Using this feature, it is possible to quickly change it without rewriting again and
- * again the same lines on the {@code .properties} file:
+ * while defining the {@link BoWSearcher} on the {@code .properties} file, a similarity function must be specified.
+ * Using this feature, it is possible to quickly change it without rewriting again and again the same lines on the
+ * {@code .properties} file:
  * <ul>
- *     <li>{@code <prefix>.searcher = Lucene}</li>
- *     <li>{@code <prefix>.searcher.Lucene.class = it.unipd.dei.search.LuceneSearch}</li>
+ *     <li>{@code launch.searcher = BoW}</li>
+ *     <li>{@code # Comment with '#' all but one of this lines to select which value to use.}</li>
+ *     <li>{@code launch.searcher.BoW.similarity = BM25}</li>
+ *     <li>{@code launch.searcher.BoW.similarity = Dirichlet}</li>
+ *     <li>{@code ...}</li>
+ *     <li>{@code searcher.BoW.class = it.unipd.dei.search.BowSearcher}</li>
  *     <li>{@code ...}</li>
  *     <li>
- *         {@code <prefix>.searcher.Lucene.params.similarity.type = org.apache.lucene.search.similarities.Similarity}
+ *         {@code searcher.BoW.params.similarity.type = org.apache.lucene.search.similarities.Similarity}
  *     </li>
- *     <li>{@code #Comment with '#' all but one of this lines to select which value to use.}</li>
- *     <li>{@code <prefix>.searcher.Lucene.params.similarity = BM25}</li>
- *     <li>{@code <prefix>.searcher.Lucene.params.similarity = Dirichlet}</li>
+ *     <li>{@code # '$(referenced_key)' will be replaced with the value stored for that key.}</li>
+ *     <li>{@code searcher.BoW.params.similarity = $(launch.searcher.BoW.similarity)}</li>
  *     <li>
- *         {@code <prefix>.searcher.Lucene.params.similarity.BM25.class =
+ *         {@code searcher.BoW.params.similarity.BM25.class =
  *         org.apache.lucene.search.similarities.BM25Similarity}
  *     </li>
  *     <li>{@code ...}</li>
  *     <li>
- *         {@code <prefix>.searcher.Lucene.params.similarity.Dirichlet.class =
+ *         {@code searcher.BoW.params.similarity.Dirichlet.class =
  *         org.apache.lucene.search.similarities.LMDirichletSimilarity}
  *     </li>
  *     <li>{@code ...}</li>
@@ -170,7 +172,7 @@ import java.util.Map;
  *
  * <p>
  * Note that the {@code .type} of an object's parameter enables to create it as an instance of a subtype
- * w.r.t the type specified in the constructor signature. For example, the LuceneSearcher constructor
+ * w.r.t the type specified in the constructor signature. For example, the BoWSearcher constructor
  * {@link BoWSearcher#BoWSearcher(String, Analyzer, Similarity,AbstractBoWQueryGenerator, int, int)} requires to
  * specify a parameter of type {@link Analyzer}. By using the {@code .class} tag, it is possible to instantiate
  * any of its subclasses like {@link org.apache.lucene.analysis.en.EnglishAnalyzer}.

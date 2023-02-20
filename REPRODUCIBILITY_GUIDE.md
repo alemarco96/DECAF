@@ -36,10 +36,10 @@ on GitHub. If it is not available on your system, please follow this procedure:
 
 The first step is to download all data necessary to conduct our experiments, following this procedure:
 
-- Download the MS-MARCO and TREC-CAR corpora data from their official websites into the `corpora` sub-folder:
+- Download the MS-MARCO and TREC-CAR corpora data from their official websites into the `template/corpora` sub-folder:
 
   ```
-  cd corpora/
+  cd template/corpora/
   mkdir MS-MARCO-passage
   cd MS-MARCO-passage/
   wget https://msmarco.blob.core.windows.net/msmarcoranking/collection.tar.gz
@@ -53,21 +53,21 @@ The first step is to download all data necessary to conduct our experiments, fol
   mv paragraphCorpus/dedup.articles-paragraphs.cbor dedup.articles-paragraphs.cbor
   rm -r paragraphCorpus/
   rm paragraphCorpus.v2.0.tar.xz
-  cd ../..
+  cd ../../..
   ```
 
 - Download the list of duplicates for MS-MARCO passages dataset, provided by TREC CAsT organizers:
 
   ```
-  cd corpora/MS-MARCO-passage/
+  cd template/corpora/MS-MARCO-passage/
   wget https://boston.lti.cs.cmu.edu/Services/treccast19/duplicate_list_v1.0.txt
-  cd ../..
+  cd ../../..
   ```
 
-- Download the topics for TREC CAsT 2019 and 2020 into the `topics` sub-folder:
+- Download the topics for TREC CAsT 2019 and 2020 into the `template/topics` sub-folder:
 
   ```
-  cd topics/
+  cd template/topics/
   wget https://raw.githubusercontent.com/daltonj/treccastweb/master/2019/data/evaluation/evaluation_topics_v1.0.json
   mv evaluation_topics_v1.0.json cast2019_automatic_evaluation.json
   wget https://raw.githubusercontent.com/daltonj/treccastweb/master/2019/data/evaluation/evaluation_topics_annotated_resolved_v1.0.tsv
@@ -76,19 +76,19 @@ The first step is to download all data necessary to conduct our experiments, fol
   mv 2020_automatic_evaluation_topics_v1.0.json cast2020_automatic_evaluation.json
   wget https://github.com/daltonj/treccastweb/blob/master/2020/2020_manual_evaluation_topics_v1.0.json
   mv 2020_manual_evaluation_topics_v1.0.json cast2020_manual_evaluation.json
-  cd ..
+  cd ../..
   ```
 
-- Download the qrels for TREC CAsT 2019 and 2020 into the `qrels` sub-folder:
+- Download the qrels for TREC CAsT 2019 and 2020 into the `template/qrels` sub-folder:
 
   ```
-  mkdir qrels
-  cd qrels/
+  mkdir template/qrels
+  cd template/qrels/
   wget https://raw.githubusercontent.com/daltonj/treccastweb/master/2019/data/2019qrels.txt
   mv 2019qrels.txt cast2019_evaluation.qrels
   wget https://raw.githubusercontent.com/daltonj/treccastweb/master/2020/2020qrels.txt
   mv 2020qrels.txt cast2020_evaluation.qrels
-  cd ..
+  cd ../..
   ```
 
 ## Step 2: Index the corpora
@@ -97,14 +97,14 @@ The next step is to index the corpora, using all three different approaches deta
 `SPLADE` bag-of-words and `BERT` dense retrieval models). In practice, you need to execute this phase once for every
 approach, following this two-steps procedure:
 
-- Adjust the index parameters by editing the `index.properties` configuration file inside the `config` sub-folder. More
-  details are provided below in the remainder of this chapter.
+- Adjust the index parameters by editing the `index.properties` configuration file inside the `template/config`
+  sub-folder. More details are provided below in the remainder of this chapter.
 
 
 - Execute the index phase, using the provided script:
 
   ```
-  ./scripts/index.sh
+  ./template/scripts/index.sh
   ```
 
 
@@ -196,7 +196,7 @@ The index configuration file must be adjusted according to this procedure:
 
 After the index phase has been completed, it is possible to replicate the experiments we conducted. Similarly to the
 previous phase, it is required to adjust the `search.properties` configuration file, then execute the desired operation
-using the `./scripts/search.sh` command.
+using the `./template/scripts/search.sh` command.
 
 We tested different configurations for each of the four main components of the framework (Topics Parser, Rewriter,
 Searcher and Reranker), which are referred to by unique IDs in the remainder of this chapter. The configuration
@@ -213,20 +213,20 @@ and 2020 datasets.
 
 | Number |  Topics   | Rewriter |  Searcher  | Reranker | Recall@100 | MRR  | NDCG@3 | NDCG@10 |
 |:------:|:---------:|:--------:|:----------:|:--------:|:----------:|:----:|:------:|:-------:|
-|   1    | Automatic |    --    |   BM25_C   |    --    |    20.0    | 32.0 |  14.3  |  14.5   |
-|   2    | Automatic |    CR    |   BM25_C   |    --    |    35.4    | 52.1 |  26.0  |  25.6   |
-|   3    | Automatic |    T5    |   BM25_C   |    --    |    42.9    | 64.6 |  34.1  |  32.3   |
-|   4    | Automatic |    --    |  BM25_FLC  |    --    |    24.1    | 40.8 |  19.0  |  18.2   |
-|   5    | Automatic |    T5    |  BM25_FLC  |    --    |    45.0    | 65.7 |  34.4  |  32.3   |
-|   6    | Automatic |    --    |   BM25_C   |   BERT   |    20.0    | 48.6 |  28.5  |  25.1   |
-|   7    | Automatic |    T5    |   BM25_C   |   BERT   |    42.9    | 79.1 |  50.4  |  45.0   |
-|   8    | Automatic |    --    |  BM25_FLC  |   BERT   |    24.1    | 52.1 |  31.1  |  27.6   |
-|   9    | Automatic |    T5    |  BM25_FLC  |   BERT   |    45.0    | 80.0 |  50.5  |  45.9   |
+|   1    | Automatic |    --    |   BM25_C   |    --    |    19.9    | 32.0 |  14.2  |  14.4   |
+|   2    | Automatic |    CR    |   BM25_C   |    --    |    35.3    | 51.5 |  25.9  |  25.4   |
+|   3    | Automatic |    T5    |   BM25_C   |    --    |    42.8    | 64.0 |  33.9  |  32.1   |
+|   4    | Automatic |    --    |  BM25_FLC  |    --    |    23.9    | 41.0 |  19.1  |  18.4   |
+|   5    | Automatic |    T5    |  BM25_FLC  |    --    |    45.0    | 65.6 |  34.4  |  32.5   |
+|   6    | Automatic |    --    |   BM25_C   |   BERT   |    19.9    | 48.0 |  28.4  |  24.9   |
+|   7    | Automatic |    T5    |   BM25_C   |   BERT   |    42.8    | 79.3 |  50.4  |  45.2   |
+|   8    | Automatic |    --    |  BM25_FLC  |   BERT   |    23.9    | 51.7 |  30.9  |  27.5   |
+|   9    | Automatic |    T5    |  BM25_FLC  |   BERT   |    45.0    | 79.4 |  50.3  |  46.0   |
 |   10   | Automatic |    T5    |   BERT_C   |    --    |    43.2    | 52.3 |  30.4  |  33.1   |
 |   11   | Automatic |    --    |  SPLADE_C  |    --    |    24.8    | 44.8 |  27.5  |  26.7   |
 |   12   | Automatic |    T5    |  SPLADE_C  |    --    |    51.5    | 79.9 |  52.3  |  50.1   |
-|   13   |  Manual   |    --    |   BM25_C   |    --    |    47.7    | 67.4 |  35.5  |  34.7   |
-|   14   |  Manual   |    --    |   BM25_C   |   BERT   |    47.7    | 82.3 |  54.4  |  48.0   |
+|   13   |  Manual   |    --    |   BM25_C   |    --    |    47.8    | 66.7 |  35.4  |  34.5   |
+|   14   |  Manual   |    --    |   BM25_C   |   BERT   |    47.8    | 82.5 |  54.4  |  48.2   |
 |   15   |  Manual   |    --    |   BERT_C   |    --    |    46.4    | 54.3 |  32.8  |  35.5   |
 |   16   |  Manual   |    --    |  SPLADE_C  |    --    |    54.9    | 84.3 |  56.6  |  53.5   |
 
@@ -234,12 +234,12 @@ and 2020 datasets.
 
 | Number |  Topics   | Rewriter | Searcher | Reranker | Recall@100 | MRR  | NDCG@3 | NDCG@10 |
 |:------:|:---------:|:--------:|:--------:|:--------:|:----------:|:----:|:------:|:-------:|
-|   1    | Automatic |    T5    |  BM25_C  |    --    |    29.3    | 26.9 |  16.8  |  17.8   |
-|   2    | Automatic |    T5    |  BM25_C  |   BERT   |    29.3    | 43.0 |  31.7  |  29.5   |
+|   1    | Automatic |    T5    |  BM25_C  |    --    |    29.6    | 26.9 |  16.9  |  18.0   |
+|   2    | Automatic |    T5    |  BM25_C  |   BERT   |    29.6    | 43.8 |  31.3  |  29.5   |
 |   3    | Automatic |    T5    |  BERT_C  |    --    |    40.4    | 34.2 |  23.6  |  23.5   |
 |   4    | Automatic |    T5    | SPLADE_C |    --    |    46.7    | 45.6 |  35.1  |  32.7   |
-|   5    |  Manual   |    --    |  BM25_C  |    --    |    41.6    | 40.3 |  25.4  |  25.9   |
-|   6    |  Manual   |    --    |  BM25_C  |   BERT   |    41.6    | 57.7 |  43.4  |  40.6   |
+|   5    |  Manual   |    --    |  BM25_C  |    --    |    41.7    | 40.3 |  25.8  |  26.0   |
+|   6    |  Manual   |    --    |  BM25_C  |   BERT   |    41.7    | 58.4 |  43.7  |  40.7   |
 |   7    |  Manual   |    --    |  BERT_C  |    --    |    56.4    | 50.8 |  35.6  |  34.7   |
 |   8    |  Manual   |    --    | SPLADE_C |    --    |    61.5    | 62.4 |  47.8  |  44.9   |
 
@@ -334,7 +334,7 @@ and 2020 datasets.
           #launch.searcher = Splade
           #launch.searcher = Dense
               
-          launch.searcher.BoW.index_directory = $(ROOT_FOLDER)/indexes/CAsT1920__BoW_$(launch.searcher.BoW.analyzer)_$(launch.searcher.BoW.similarity)
+          launch.searcher.BoW.index_directory = $(ROOT_FOLDER)/template/indexes/CAsT1920__BoW_$(launch.searcher.BoW.analyzer)_$(launch.searcher.BoW.similarity)
           launch.searcher.BoW.analyzer = English
           launch.searcher.BoW.similarity = BM25
           launch.searcher.BoW.similarity.BM25.k1 = 0.82
@@ -373,7 +373,7 @@ and 2020 datasets.
           #launch.searcher = Splade
           launch.searcher = Dense
 
-          launch.searcher.Dense.index_directory = $(ROOT_FOLDER)/indexes/CAsT1920__Dense_$(launch.searcher.Dense.model)_$(launch.searcher.Dense.similarity)
+          launch.searcher.Dense.index_directory = $(ROOT_FOLDER)/template/indexes/CAsT1920__Dense_$(launch.searcher.Dense.model)_$(launch.searcher.Dense.similarity)
           launch.searcher.Dense.model = distilbert-dot-tas_b-b256-msmarco
           #launch.searcher.Dense.model = multi-qa-mpnet-base-dot-v1
           launch.searcher.Dense.vector_size = 768
@@ -414,7 +414,7 @@ and 2020 datasets.
           launch.searcher = Splade
           #launch.searcher = Dense
 
-          launch.searcher.Splade.index_directory = $(ROOT_FOLDER)/indexes/CAsT1920__Splade_efficient-splade-V-large-doc
+          launch.searcher.Splade.index_directory = $(ROOT_FOLDER)/template/indexes/CAsT1920__Splade_efficient-splade-V-large-doc
           launch.searcher.Splade.model = efficient-splade-V-large-query
           launch.searcher.Splade.max_tokens = 512
           ```
@@ -502,7 +502,7 @@ use the `trec-eval` tool from command-line, according to this procedure:
 - Open the terminal from the main folder of the framework.
 
 
-- Identify the path relative to the `runs` sub-folder to the file containing the desired run:
+- Identify the path relative to the `template/runs` sub-folder to the file containing the desired run:
 
   ```
   RUN_FILENAME=path/to/run/file
@@ -513,13 +513,13 @@ use the `trec-eval` tool from command-line, according to this procedure:
   * TREC CAsT 2019 experiments:
 
     ```
-    ./trec_eval -m recall.100 -m recip_rank -m ndcg_cut.3,10 qrels/cast2019_evaluation.qrels runs/$RUN_FILENAME
+    ./trec_eval -m recall.100 -m recip_rank -m ndcg_cut.3,10 template/qrels/cast2019_evaluation.qrels template/runs/$RUN_FILENAME
     ```
 
   * TREC CAsT 2020 experiments:
 
     ```
-    ./trec_eval -l 2 -m recall.100 -m recip_rank -m ndcg_cut.3,10 qrels/cast2020_evaluation.qrels runs/$RUN_FILENAME
+    ./trec_eval -l 2 -m recall.100 -m recip_rank -m ndcg_cut.3,10 template/qrels/cast2020_evaluation.qrels template/runs/$RUN_FILENAME
     ```
 
     Note that we deem relevance scale >= 2 as positive for both MRR and Recall metrics, as required by the official
