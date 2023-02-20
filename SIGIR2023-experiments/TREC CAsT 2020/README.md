@@ -2,7 +2,7 @@
 
 This folder contains all experiments conducted on the TREC CAsT 2020 dataset.
 
-- For each experiment, there is a folder dubbed as the associated experiment number, containing:
+- For each experiment, there is a folder, dubbed as the associated experiment number, containing:
 
   * `search.properties`
 
