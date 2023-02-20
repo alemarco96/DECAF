@@ -5,7 +5,10 @@
 DECAF is a framework for performing conversational search. Its modular architecture enables it to easily extend and
 adapt to suit most applications' needs while reusing most of the pre-defined components. The core of DECAF is written
 in Java, while some components are implemented in Python. All machine-learning code supports acceleration through
-CUDA-enabled GPU. It is developed at the [University of Padua](https://www.unipd.it/).
+CUDA-enabled GPU. It is developed at the
+[Intelligent Interactive Information Access Hub](https://iiia.dei.unipd.it/),
+[Department of Information Engineering (DEI)](https://www.dei.unipd.it/home-page),
+[University of Padua](https://www.unipd.it/).
 
 ## License ##
 
@@ -13,6 +16,110 @@ All the contents of this repository are shared using the
 [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
 
 ![CC logo](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)
+
+## Repository Structure ##
+
+The repository is organized following this structure:
+
+- `SIGIR-experiments`
+
+  This folder contains the data about the experiments shown in Section 5 'Experimental Results' of the paper.
+
+  * `TREC CAsT 2019`
+
+    This folder contains all experiments conducted on the TREC CAsT 2019 dataset. The evaluation measures are reported
+    on Table 4 of the paper.
+
+  * `TREC CAsT 2020`
+
+    This folder contains all experiments conducted on the TREC CAsT 2020 dataset. The evaluation measures are reported
+    on Table 5 of the paper.
+
+  For each experiment, inside a subdirectory with the number of the experiment reported in the paper, we include the
+  configuration file employed as well as the run generated and the evaluation measures produced by `trec_eval` tool.
+
+
+- `src`
+
+  This folder contains the source code of DECAF.
+
+
+- `template`
+
+  This folder contains the structure of directories created to ease the framework instantiation.
+
+  * `config`
+
+    This folder contains the properties files defining which components are instantiated along with their parameters.
+
+  * `corpora`
+
+    This folder contains the corpora used for indexing.
+
+  * `indexes`
+
+    This folder contains the indexes created with the framework.
+
+  * `models`
+
+    This folder contains the machine-learning models employed.
+
+  * `runs`
+
+    This folder contains the runs produced using the search pipeline.
+
+  * `scripts`
+
+    This folder contains the scripts used to execute either the index or the search pipeline.
+
+  * `topics`
+
+    This folder contains the evaluation topics files.
+
+  * `venv`
+
+    This folder contains the Python virtual environments employed by the components.
+
+
+- [`CONFIGURATION_GUIDE.md`](CONFIGURATION_GUIDE.md)
+
+  The guide describing how to configure the properties files and execute experiments using DECAF.
+
+
+- [`INSTALLATION_GUIDE.md`](INSTALLATION_GUIDE.md)
+
+  The guide describing how to install and setup DECAF.
+
+
+- [`README.md`](README.md)
+
+  This readme.
+
+
+- [`REPRODUCIBILITY.md`](REPRODUCIBILITY_GUIDE.md)
+
+  The guide describing how to reproduce the results shown in the paper.
+
+
+- `allennlp_spacy_transformers.yml`
+
+  The conda environmental file needed to create the `allennlp_spacy_transformers` Python virtual environment.
+
+
+- `faiss_fastcoref_spacy_transformers.yml`
+
+  The conda environmental file needed to create the `faiss_fastcoref_spacy_transformers` Python virtual environment.
+
+
+- `decaf-logo.png`
+
+  The logo of DECAF.
+
+
+- `pom.xml`
+
+  The Maven pom file.
+
 
 ## How to setup the Framework
 
