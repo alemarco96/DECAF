@@ -1,6 +1,6 @@
 # DECAF
 
-![Logo of DECAF](decaf-logo.png "Logo of DECAF")
+![DECAF Logo](logos/decaf.png "DECAF Logo")
 
 DECAF is a framework for performing conversational search. Its modular architecture enables it to easily extend and
 adapt to suit most applications' needs while reusing most of the pre-defined components. The core of DECAF is written
@@ -9,6 +9,8 @@ CUDA-enabled GPU. It is developed at the
 [Intelligent Interactive Information Access Hub](https://iiia.dei.unipd.it/),
 [Department of Information Engineering (DEI)](https://www.dei.unipd.it/home-page),
 [University of Padua](https://www.unipd.it/).
+
+![IIIA Logo](logos/iiia.png "IIIA Logo") ![DEI Logo](logos/dei.png "DEI Logo") ![UniPD Logo](logos/unipd.png "UniPD Logo")
 
 ## License ##
 
@@ -114,9 +116,29 @@ The repository is organized following this structure:
   The conda environmental file needed to create the `faiss_fastcoref_spacy_transformers` Python virtual environment.
 
 
-- `decaf-logo.png`
+- `logos`
 
-  The logo of DECAF.
+  This folder contains the logos used in this readme.
+
+
+  * `decaf.png`
+
+    The logo of DECAF.
+
+
+  * `iiia.png`
+
+    The logo of [Intelligent Interactive Information Access Hub](https://iiia.dei.unipd.it/).
+
+
+  * `dei.png`
+
+    The logo of [Department of Information Engineering (DEI)](https://www.dei.unipd.it/home-page).
+
+
+  * `unipd.png`
+
+    The logo of [University of Padua](https://www.unipd.it/).
 
 
 - `pom.xml`
