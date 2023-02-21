@@ -29,16 +29,16 @@ The repository is organized following this structure:
 
   * `TREC CAsT 2019`
 
-    This folder contains all experiments conducted on the TREC CAsT 2019 dataset. The evaluation measures are reported
-    on Table 4 of the paper.
+    This folder contains the data about all experiments conducted on the TREC CAsT 2019 dataset. The evaluation
+    measures are reported on Table 4 of the paper.
 
   * `TREC CAsT 2020`
 
-    This folder contains all experiments conducted on the TREC CAsT 2020 dataset. The evaluation measures are reported
-    on Table 5 of the paper.
+    This folder contains the data about all experiments conducted on the TREC CAsT 2020 dataset. The evaluation
+    measures are reported on Table 5 of the paper.
 
-  For each experiment, inside a subdirectory with the number of the experiment reported in the paper, we include the
-  configuration file employed as well as the run generated and the evaluation measures produced by `trec_eval` tool.
+  For each experiment, inside a subdirectory dubbed as the experiment number reported in the paper, we include
+  the configuration file employed as well as the run generated and the evaluation measures produced by `trec_eval` tool.
 
 
 - `src`
@@ -48,7 +48,7 @@ The repository is organized following this structure:
 
 - `template`
 
-  This folder contains the structure of directories created to ease the framework instantiation.
+  This folder contains the structure of directories created to ease the framework operationalization.
 
   * `config`
 
@@ -101,7 +101,7 @@ The repository is organized following this structure:
   This readme.
 
 
-- [`REPRODUCIBILITY.md`](REPRODUCIBILITY_GUIDE.md)
+- [`REPRODUCIBILITY_GUIDE.md`](REPRODUCIBILITY_GUIDE.md)
 
   The guide describing how to reproduce the results shown in the paper.
 
@@ -113,7 +113,7 @@ The repository is organized following this structure:
 
   Note that all scripts **MUST** be launched from the root folder of DECAF.
 
-  * `install.sh`
+  * `installation.sh`
 
     The bash script used to execute the installation procedure for DECAF. It is equivalent to the entire procedure
     shown in the [`Installation Guide`](INSTALLATION_GUIDE.md).
@@ -139,21 +139,17 @@ The repository is organized following this structure:
 
   This folder contains the logos used in this readme.
 
-
   * `decaf.png`
 
     The logo of DECAF.
-
 
   * `iiia.png`
 
     The logo of [Intelligent Interactive Information Access Hub](https://iiia.dei.unipd.it/).
 
-
   * `dei.png`
 
     The logo of [Department of Information Engineering (DEI)](https://www.dei.unipd.it/home-page).
-
 
   * `unipd.png`
 
