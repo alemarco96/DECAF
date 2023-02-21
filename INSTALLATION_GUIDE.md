@@ -13,7 +13,20 @@ In order to execute this framework, these requirements must be fulfilled:
 
 For the remainder of this guide, we assume that the OS used is Linux.
 
-## Step 1: Build the framework from source
+## Quick Installation Procedure
+
+It is possible to execute all steps shown in the remainder of this guide by executing the installation bash script:
+
+- Open the terminal in the root folder of DECAF.
+
+- Execute the installation script.
+  ```
+  ./setup_scripts/installation.sh
+  ```
+
+## Full Procedure
+
+### Step 1: Build the framework from source
 
 The Framework must be built according to the following procedure:
 
@@ -42,7 +55,7 @@ The Framework must be built according to the following procedure:
 
   It will be placed inside the `javadoc` subdirectory inside the root folder.
 
-## Step 2: Setup Python virtual environments
+### Step 2: Setup Python virtual environments
 
 The configuration files provided with the framework assume that all Python package dependencies have been installed
 according to the following procedure:
@@ -97,7 +110,7 @@ according to the following procedure:
   this step can be safely skipped. Note that the `FastCoref` rewriter performs the same job using a different library,
   the results are (mostly) identical, and it is faster.
 
-## Step 3: Download all models
+### Step 3: Download all models
 
 This framework relies on some machine-learning models to perform its job. Before being able to use the framework,
 users are required to download them and save them on disk. Please follow this procedure:
@@ -121,7 +134,7 @@ users are required to download them and save them on disk. Please follow this pr
   mkdir $DECAF_MODELS_FOLDER/transformers
   ```
 
-### Download all Transformers models
+#### Download all Transformers models
 
 For each model, repeat these steps:
 
@@ -156,7 +169,7 @@ For each model, repeat these steps:
 
 - In case a model is not needed anymore, its folder inside the `template/models/transformers` directory can be deleted.
 
-### Download all AllenNLP models
+#### Download all AllenNLP models
 
 This step is required only if the `AllenNLP` rewriter is employed, otherwise it can be safely skipped. In such case,
 make sure to create the `allennlp_spacy_transformers` virtual environment as well.
@@ -189,7 +202,7 @@ make sure to create the `allennlp_spacy_transformers` virtual environment as wel
 
 - In case a model is not needed anymore, its folder inside the `template/models/allennlp` directory can be deleted.
 
-## Step 4: Edit the launch scripts
+### Step 4: Edit the launch scripts
 
 The provided launch scripts must be edited to point to the correct locations on disk. Please follow this procedure:
 

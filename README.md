@@ -106,6 +106,25 @@ The repository is organized following this structure:
   The guide describing how to reproduce the results shown in the paper.
 
 
+- `install_scripts`
+
+  This folder contains the scripts used to install the framework as well as the data needed to reproduce the
+  experiments shown in Section 5 'Experimental Results' of the paper.
+
+  Note that all scripts **MUST** be launched from the root folder of DECAF.
+
+  * `install.sh`
+
+    The bash script used to execute the installation procedure for DECAF. It is equivalent to the entire procedure
+    shown in the [`Installation Guide`](INSTALLATION_GUIDE.md).
+
+  * `reproducibility.sh`
+
+    The bash script used to download all data needed to replicate our experiments. It is equivalent to Step 1 of the
+    [`Reproducibility Guide`](REPRODUCIBILITY_GUIDE.md). To replicate our experiments, first execute this script
+    successfully, then follow the guide starting from Step 2.
+
+
 - `allennlp_spacy_transformers.yml`
 
   The conda environmental file needed to create the `allennlp_spacy_transformers` Python virtual environment.

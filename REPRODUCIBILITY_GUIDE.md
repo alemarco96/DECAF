@@ -4,12 +4,28 @@ In this page, we detailed the step-by-step procedure on how to replicate the exp
 **DECAF: a Modular and Extensible Conversational Search Framework** <br>
 paper. For the remainder of this guide, we assume that the OS used is Linux.
 
-## Prerequisite: Initial setup of the framework
+## Quick Reproducibility Procedure
+
+It is possible to execute all steps up to the end of Step 1 shown in the remainder of this guide by executing the
+reproducibility bash script:
+
+- Open the terminal in the root folder of DECAF.
+
+- Execute the reproducibility script.
+  ```
+  ./setup_scripts/reproducibility.sh
+  ```
+
+Then please follow the Full Procedure starting from Step 2.
+
+## Full Procedure
+
+### Prerequisite: Initial setup of the framework
 
 It is required to perform the initial setup of the framework. Please follow the instructions detailed on the
 [Installation](INSTALLATION_GUIDE.md) guide.
 
-## Prerequisite: Install trec-eval tool for evaluation
+### Prerequisite: Install trec-eval tool for evaluation
 
 We perform evaluation using the official [trec-eval](https://github.com/usnistgov/trec_eval) open-source tool available
 on GitHub. If it is not available on your system, please follow this procedure:
@@ -32,7 +48,7 @@ on GitHub. If it is not available on your system, please follow this procedure:
   rm -rf trec_eval_tool/
   ```
 
-## Step 1: Download all necessary data
+### Step 1: Download all necessary data
 
 The first step is to download all data necessary to conduct our experiments, following this procedure:
 
@@ -91,7 +107,7 @@ The first step is to download all data necessary to conduct our experiments, fol
   cd ../..
   ```
 
-## Step 2: Index the corpora
+### Step 2: Index the corpora
 
 The next step is to index the corpora, using all three different approaches detailed in the paper (`BM25` and
 `SPLADE` bag-of-words and `BERT` dense retrieval models). In practice, you need to execute this phase once for every
@@ -192,7 +208,7 @@ The index configuration file must be adjusted according to this procedure:
 
         + All other parameters could be left with their default parameters.
 
-## Step 3: Perform the experiments
+### Step 3: Perform the experiments
 
 After the index phase has been completed, it is possible to replicate the experiments we conducted. Similarly to the
 previous phase, it is required to adjust the `search.properties` configuration file, then execute the desired operation
@@ -211,37 +227,37 @@ and 2020 datasets.
 
 - Table of experiments on TREC CAsT 2019:
 
-| Number |  Topics   | Rewriter |  Searcher  | Reranker | Recall@100 | MRR  | NDCG@3 | NDCG@10 |
-|:------:|:---------:|:--------:|:----------:|:--------:|:----------:|:----:|:------:|:-------:|
-|   1    | Automatic |    --    |   BM25_C   |    --    |    19.9    | 32.0 |  14.2  |  14.4   |
-|   2    | Automatic |    CR    |   BM25_C   |    --    |    35.3    | 51.5 |  25.9  |  25.4   |
-|   3    | Automatic |    T5    |   BM25_C   |    --    |    42.8    | 64.0 |  33.9  |  32.1   |
-|   4    | Automatic |    --    |  BM25_FLC  |    --    |    23.9    | 41.0 |  19.1  |  18.4   |
-|   5    | Automatic |    T5    |  BM25_FLC  |    --    |    45.0    | 65.6 |  34.4  |  32.5   |
-|   6    | Automatic |    --    |   BM25_C   |   BERT   |    19.9    | 48.0 |  28.4  |  24.9   |
-|   7    | Automatic |    T5    |   BM25_C   |   BERT   |    42.8    | 79.3 |  50.4  |  45.2   |
-|   8    | Automatic |    --    |  BM25_FLC  |   BERT   |    23.9    | 51.7 |  30.9  |  27.5   |
-|   9    | Automatic |    T5    |  BM25_FLC  |   BERT   |    45.0    | 79.4 |  50.3  |  46.0   |
-|   10   | Automatic |    T5    |   BERT_C   |    --    |    43.2    | 52.3 |  30.4  |  33.1   |
-|   11   | Automatic |    --    |  SPLADE_C  |    --    |    24.8    | 44.8 |  27.5  |  26.7   |
-|   12   | Automatic |    T5    |  SPLADE_C  |    --    |    51.5    | 79.9 |  52.3  |  50.1   |
-|   13   |  Manual   |    --    |   BM25_C   |    --    |    47.8    | 66.7 |  35.4  |  34.5   |
-|   14   |  Manual   |    --    |   BM25_C   |   BERT   |    47.8    | 82.5 |  54.4  |  48.2   |
-|   15   |  Manual   |    --    |   BERT_C   |    --    |    46.4    | 54.3 |  32.8  |  35.5   |
-|   16   |  Manual   |    --    |  SPLADE_C  |    --    |    54.9    | 84.3 |  56.6  |  53.5   |
+| Number |  Topics   | Rewriter |  Searcher  | Reranker | Recall@100 |   MRR    |  NDCG@3  | NDCG@10  |
+|:------:|:---------:|:--------:|:----------:|:--------:|:----------:|:--------:|:--------:|:--------:|
+|   1    | Automatic |    --    |   BM25_C   |    --    |    19.9    |   32.0   |   14.2   |   14.4   |
+|   2    | Automatic |    CR    |   BM25_C   |    --    |    35.3    |   51.5   |   25.9   |   25.4   |
+|   3    | Automatic |    T5    |   BM25_C   |    --    |    42.8    |   64.0   |   33.9   |   32.1   |
+|   4    | Automatic |    --    |  BM25_FLC  |    --    |    23.9    |   41.0   |   19.1   |   18.4   |
+|   5    | Automatic |    T5    |  BM25_FLC  |    --    |    45.0    |   65.6   |   34.4   |   32.5   |
+|   6    | Automatic |    --    |   BM25_C   |   BERT   |    19.9    |   48.0   |   28.4   |   24.9   |
+|   7    | Automatic |    T5    |   BM25_C   |   BERT   |    42.8    |   79.3   |   50.4   |   45.2   |
+|   8    | Automatic |    --    |  BM25_FLC  |   BERT   |    23.9    |   51.7   |   30.9   |   27.5   |
+|   9    | Automatic |    T5    |  BM25_FLC  |   BERT   |    45.0    |   79.4   |   50.3   |   46.0   |
+|   10   | Automatic |    T5    |   BERT_C   |    --    |    43.2    |   52.3   |   30.4   |   33.1   |
+|   11   | Automatic |    --    |  SPLADE_C  |    --    |    24.8    |   44.8   |   27.5   |   26.7   |
+|   12   | Automatic |    T5    |  SPLADE_C  |    --    |  **51.5**  | **79.9** | **52.3** | **50.1** |
+|   13   |  Manual   |    --    |   BM25_C   |    --    |    47.8    |   66.7   |   35.4   |   34.5   |
+|   14   |  Manual   |    --    |   BM25_C   |   BERT   |    47.8    |   82.5   |   54.4   |   48.2   |
+|   15   |  Manual   |    --    |   BERT_C   |    --    |    46.4    |   54.3   |   32.8   |   35.5   |
+|   16   |  Manual   |    --    |  SPLADE_C  |    --    |  **54.9**  | **84.3** | **56.6** | **53.5** |
 
 - Table of experiments on TREC CAsT 2020:
 
-| Number |  Topics   | Rewriter | Searcher | Reranker | Recall@100 | MRR  | NDCG@3 | NDCG@10 |
-|:------:|:---------:|:--------:|:--------:|:--------:|:----------:|:----:|:------:|:-------:|
-|   1    | Automatic |    T5    |  BM25_C  |    --    |    29.6    | 26.9 |  16.9  |  18.0   |
-|   2    | Automatic |    T5    |  BM25_C  |   BERT   |    29.6    | 43.8 |  31.3  |  29.5   |
-|   3    | Automatic |    T5    |  BERT_C  |    --    |    40.4    | 34.2 |  23.6  |  23.5   |
-|   4    | Automatic |    T5    | SPLADE_C |    --    |    46.7    | 45.6 |  35.1  |  32.7   |
-|   5    |  Manual   |    --    |  BM25_C  |    --    |    41.7    | 40.3 |  25.8  |  26.0   |
-|   6    |  Manual   |    --    |  BM25_C  |   BERT   |    41.7    | 58.4 |  43.7  |  40.7   |
-|   7    |  Manual   |    --    |  BERT_C  |    --    |    56.4    | 50.8 |  35.6  |  34.7   |
-|   8    |  Manual   |    --    | SPLADE_C |    --    |    61.5    | 62.4 |  47.8  |  44.9   |
+| Number |  Topics   | Rewriter | Searcher | Reranker | Recall@100 |   MRR    |  NDCG@3  | NDCG@10  |
+|:------:|:---------:|:--------:|:--------:|:--------:|:----------:|:--------:|:--------:|:--------:|
+|   1    | Automatic |    T5    |  BM25_C  |    --    |    29.6    |   26.9   |   16.9   |   18.0   |
+|   2    | Automatic |    T5    |  BM25_C  |   BERT   |    29.6    |   43.8   |   31.3   |   29.5   |
+|   3    | Automatic |    T5    |  BERT_C  |    --    |    40.4    |   34.2   |   23.6   |   23.5   |
+|   4    | Automatic |    T5    | SPLADE_C |    --    |  **46.7**  | **45.6** | **35.1** | **32.7** |
+|   5    |  Manual   |    --    |  BM25_C  |    --    |    41.7    |   40.3   |   25.8   |   26.0   |
+|   6    |  Manual   |    --    |  BM25_C  |   BERT   |    41.7    |   58.4   |   43.7   |   40.7   |
+|   7    |  Manual   |    --    |  BERT_C  |    --    |    56.4    |   50.8   |   35.6   |   34.7   |
+|   8    |  Manual   |    --    | SPLADE_C |    --    |  **61.5**  | **62.4** | **47.8** | **44.9** |
 
 - Configuration parameters to set in the `search.properties` file:
 
@@ -481,6 +497,8 @@ and 2020 datasets.
 
     ```
     launch.run_writer = TrecEval
+    launch.run_writer.TrecEval.run_id = id-of-the-experiment
+    
     #launch.run_writer = Debug
     ```
 
@@ -491,10 +509,12 @@ and 2020 datasets.
 
     ```
     #launch.run_writer = TrecEval
+    
     launch.run_writer = Debug
+    launch.run_writer.Debug.run_id = id-of-the-experiment
     ```
 
-## Step 4: Perform evaluation of the generated runs
+### Step 4: Perform evaluation of the generated runs
 
 After step 3, it is possible to perform evaluation of the run generated for each experiment. To perform this phase, we
 use the `trec-eval` tool from command-line, according to this procedure:
