@@ -106,7 +106,7 @@ The repository is organized following this structure:
   The guide describing how to reproduce the results shown in the paper.
 
 
-- `install_scripts`
+- `setup_scripts`
 
   This folder contains the scripts used to install the framework as well as the data needed to reproduce the
   experiments shown in Section 5 'Experimental Results' of the paper.
