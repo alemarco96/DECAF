@@ -27,7 +27,7 @@ To cite DECAF use:
   author    = {Marco Alessio and
                Guglielmo Faggioli and
                Nicola Ferro},
-  title     = {DECAF: a Modular and Extensible Conversational Search Framework},
+  title     = {{{DECAF}: a Modular and Extensible Conversational Search Framework}},
   booktitle = {{SIGIR} '23: The 46th International {ACM} {SIGIR} Conference on Research
                and Development in Information Retrieval, Taipei, Taiwan, July
                23-27, 2023},
