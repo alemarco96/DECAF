@@ -21,7 +21,7 @@ All the contents of this repository are shared using the
 ![CC logo](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)
 
 ## Cite DECAF ##
-To cite DECAF copy the following bib reference:
+To cite DECAF use:
 ```
 @inproceedings{AlessioFaggioliFerro2023,
   author    = {Marco Alessio and
