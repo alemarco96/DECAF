@@ -10,6 +10,7 @@ CUDA-enabled GPU. It is developed at the
 [Department of Information Engineering (DEI)](https://www.dei.unipd.it/home-page),
 [University of Padua](https://www.unipd.it/).
 
+
 ![IIIA Logo](logos/iiia.png "IIIA Logo") ![DEI Logo](logos/dei.png "DEI Logo") ![UniPD Logo](logos/unipd.png "UniPD Logo")
 
 ## License ##
@@ -19,6 +20,21 @@ All the contents of this repository are shared using the
 
 ![CC logo](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)
 
+## Cite DECAF ##
+To cite DECAF copy the following bib reference:
+```
+@inproceedings{AlessioFaggioliFerro2023,
+  author    = {Marco Alessio and
+               Guglielmo Faggioli and
+               Nicola Ferro},
+  title     = {DECAF: a Modular and Extensible Conversational Search Framework},
+  booktitle = {{SIGIR} '23: The 46th International {ACM} {SIGIR} Conference on Research
+               and Development in Information Retrieval, Taipei, Taiwan, July
+               23-27, 2023},
+  publisher = {{ACM}},
+  year      = {2021},
+}
+```
 ## Repository Structure ##
 
 The repository is organized following this structure:
