@@ -32,7 +32,9 @@ To cite DECAF use:
                and Development in Information Retrieval, Taipei, Taiwan, July
                23-27, 2023},
   publisher = {{ACM}},
-  year      = {2021},
+  year      = {2023},
+  url       = {https://doi.org/10.1145/3539618.3591913},
+  doi       = {10.1145/3539618.3591913}
 }
 ```
 ## Repository Structure ##
